@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.time &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="leiap.spatial" href="leiap.spatial.html" />
+    <link rel="prev" title="leiap.checks" href="leiap.checks.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>leiap.time</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/leiap.time.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-leiap.time">
+<span id="leiap-time"></span><h1>leiap.time<a class="headerlink" href="#module-leiap.time" title="Permalink to this headline">¶</a></h1>
+<p>This file contains functions related to survey search time calculations</p>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.time.clean_datetimes" title="leiap.time.clean_datetimes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_datetimes</span></code></a>(df[,&nbsp;dt_col])</td>
+<td>Filter datetimes and correct for timezone issues</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.time.correct_timezone" title="leiap.time.correct_timezone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_timezone</span></code></a>(df[,&nbsp;dt_col])</td>
+<td>Account for some timezone issues</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.time.calc_search_time" title="leiap.time.calc_search_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_search_time</span></code></a>(df[,&nbsp;dt_col,&nbsp;warn])</td>
+<td>Calculate search times in seconds</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.time.filter_times" title="leiap.time.filter_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_times</span></code></a>(df[,&nbsp;t_col,&nbsp;t_lim,&nbsp;dist_col,&nbsp;…])</td>
+<td>Put time and distance restrictions on the time data.</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="leiap.time.clean_datetimes">
+<code class="descclassname">leiap.time.</code><code class="descname">clean_datetimes</code><span class="sig-paren">(</span><em>df</em>, <em>dt_col='DataDate'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/time.html#clean_datetimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.time.clean_datetimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter datetimes and correct for timezone issues</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas DataFrame</em>) – DataFrame of point observations</li>
+<li><strong>dt_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column name for datetime data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Identical to input DataFrame with an added ‘dt_adj’ column representing datetimes filtered and
+correct (see Notes)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>1. Points collected in 2014 did not have their times recorded (only dates); they are assigned a time of 00:00:00
+by the database. In the new <cite>dt_adj</cite> column, they are assigned NaT type. If you want to access just the dates,
+you can do so with the original <cite>dt_col</cite> (<cite>DataDate</cite> by default).
+2. When points are downloaded from handheld GPS devices, their times are converted to the timezone of the laptop on
+which they are downloaded. Before we realized this, a lot of points were uploaded on machines set to U.S. Pacific
+Time. As a result, some times need to be adjusted by 9 hours.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.time.correct_timezone">
+<code class="descclassname">leiap.time.</code><code class="descname">correct_timezone</code><span class="sig-paren">(</span><em>df</em>, <em>dt_col='DataDate'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/time.html#correct_timezone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.time.correct_timezone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Account for some timezone issues</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas DataFrame</em>) – DataFrame of point observations</li>
+<li><strong>dt_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column name for datetime data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Identical to input DataFrame with datetimes fixed so that they all range from 06:30:00-21:30:00. In reality,
+the latest times are approx 15:00:00</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.time.calc_search_time">
+<code class="descclassname">leiap.time.</code><code class="descname">calc_search_time</code><span class="sig-paren">(</span><em>df</em>, <em>dt_col='dt_adj'</em>, <em>warn='enable'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/time.html#calc_search_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.time.calc_search_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate search times in seconds</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas DataFrame of points</em>) – Must have columns ‘FieldNumber’, ‘SurveyorName’, ‘SurveyPointId’</li>
+<li><strong>dt_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column name for datetime data</li>
+<li><strong>warn</strong> (<em>{'enable'</em><em>, </em><em>'disable'}</em>) – Specify whether or not you want the generic warning message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Identical to input DataFrame with added ‘search_time’ and ‘dist’ columns representing search time in seconds,
+and distance from previous point in meters</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This is a naive calculation that doesn’t discard any times. You will want to filter values further before using in
+any interpretively meaningful way.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.time.filter_times">
+<code class="descclassname">leiap.time.</code><code class="descname">filter_times</code><span class="sig-paren">(</span><em>df</em>, <em>t_col='search_time'</em>, <em>t_lim=(1</em>, <em>900)</em>, <em>dist_col='dist'</em>, <em>dist_lim=(1</em>, <em>20)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/time.html#filter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.time.filter_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put time and distance restrictions on the time data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas DataFrame</em>) – Dataset of points</li>
+<li><strong>t_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of column with time info</li>
+<li><strong>t_lim</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Min and max limits (inclusive) for time</li>
+<li><strong>dist_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of column with distance info</li>
+<li><strong>dist_lim</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Min and max limits (inclusive) for distance</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filtered</strong> – A subset of the original DataFrame filtered according to the input parameters</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="leiap.spatial.html" class="btn btn-neutral float-right" title="leiap.spatial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="leiap.checks.html" class="btn btn-neutral" title="leiap.checks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

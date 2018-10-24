@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.report &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.report</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.report</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions related to the annual report</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="c1"># import numpy as _np</span>
+<span class="c1"># import altair as _alt</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="fields_summary_table"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.fields_summary_table">[docs]</a><span class="k">def</span> <span class="nf">fields_summary_table</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">artifacts</span><span class="p">,</span> <span class="n">fid_col</span><span class="o">=</span><span class="s1">&#39;geo_field&#39;</span><span class="p">,</span>
+                         <span class="n">save_excel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">excel_file</span><span class="o">=</span><span class="s1">&#39;field_counts.xlsx&#39;</span><span class="p">,</span> <span class="n">excel_sheet</span><span class="o">=</span><span class="s1">&#39;field_data&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create table (in Spanish) with basic stats by field</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    points : DataFrame</span>
+<span class="sd">        pandas DataFrame of survey points</span>
+<span class="sd">    artifacts : DataFrame</span>
+<span class="sd">        pandas DataFrame of artifacts</span>
+<span class="sd">    fid_col: str, optional</span>
+<span class="sd">        Column containing the field identifier to use for grouping</span>
+<span class="sd">    save_excel : bool, optional</span>
+<span class="sd">        Specify whether to write DataFrame to an Excel sheet</span>
+<span class="sd">    excel_file : str, optional</span>
+<span class="sd">        Filename for Excel</span>
+<span class="sd">    excel_sheet : str, optional</span>
+<span class="sd">        Sheet name for Excel</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fields_data : DataFrame</span>
+<span class="sd">        DataFrame version of the created table</span>
+<span class="sd">        </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The table is in the form:</span>
+<span class="sd">    </span>
+<span class="sd">    | Polígono | Parcela | Subparcela |   Id   | Núm. Pts. | Núm. Frags. | Pos. Pts. |</span>
+<span class="sd">    | -------- | ------- | ---------- | ------ | --------- | ----------- | --------- |</span>
+<span class="sd">    |    03    |   027   |      0     | 030270 |    351    |     39      |     26    |</span>
+<span class="sd">    |    16    |   092   |      a     | 16092a |    105    |     58      |     51    |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># count number of points per geographic field</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">points_per_group</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># count number of artifacts per field</span>
+    <span class="n">artifact_cts</span> <span class="o">=</span> <span class="n">artifacts_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># count number of points with artifacts per field</span>
+    <span class="n">pos_pts</span> <span class="o">=</span> <span class="n">pos_points_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># concatenate the three dataframes created above with an outer join</span>
+    <span class="n">fields_data</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">fields</span><span class="p">,</span> <span class="n">artifact_cts</span><span class="p">,</span> <span class="n">pos_pts</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">fields_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fields_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;Id&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># set counts columns to proper integer datatypes</span>
+    <span class="n">fields_data</span><span class="p">[[</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    
+    <span class="c1"># split up the `Id` column into various components</span>
+    <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Polígono&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Parcela&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Subparcela&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+
+    <span class="c1"># reorder columns</span>
+    <span class="n">fields_data</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[[</span><span class="s1">&#39;Polígono&#39;</span><span class="p">,</span> <span class="s1">&#39;Parcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Subparcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span>
+    
+    <span class="k">if</span> <span class="n">save_excel</span><span class="p">:</span>
+        <span class="c1"># save to Excel sheet</span>
+        <span class="n">fields_data</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">excel_file</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="n">excel_sheet</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">fields_data</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="points_per_group"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.points_per_group">[docs]</a><span class="k">def</span> <span class="nf">points_per_group</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">grouper_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Count the points in the given group</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    points : pandas DataFrame</span>
+<span class="sd">        Point observations</span>
+<span class="sd">    grouper_col : str</span>
+<span class="sd">        Column in `points` that you want to use to group, usually &#39;geo_field&#39; or similar</span>
+<span class="sd">    ct_col : str, optional</span>
+<span class="sd">        Name to give the new column</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Points grouped and counted according to the grouper_col    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="artifacts_per_group"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.artifacts_per_group">[docs]</a><span class="k">def</span> <span class="nf">artifacts_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Count the artifacts in the given group</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artifacts : pandas DataFrame</span>
+<span class="sd">        Artifact observations</span>
+<span class="sd">    grouper_col : str</span>
+<span class="sd">        Column in `artifacts` that you want to use to group, usually &#39;geo_field&#39; or similar</span>
+<span class="sd">    ct_col : str, optional</span>
+<span class="sd">        Name to give the new column</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Artifacts grouped and counted according to the grouper_col</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="pos_points_per_group"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.pos_points_per_group">[docs]</a><span class="k">def</span> <span class="nf">pos_points_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Count the number of points with artifacts in the given group</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artifacts : pandas DataFrame</span>
+<span class="sd">        Artifact observations</span>
+<span class="sd">    grouper_col : str</span>
+<span class="sd">        Column in `artifacts` that you want to use to group, usually &#39;geo_field&#39; or similar</span>
+<span class="sd">    pt_id_col : str, optional</span>
+<span class="sd">        Column that contains unique point identifier, usually &#39;SurveyPointId&#39;</span>
+<span class="sd">    ct_col : str, optional</span>
+<span class="sd">        Name to give the new column</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Number of points with artifacts grouped and counted according to the grouper_col</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">grouper_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<span class="c1"># def time_span_chart(artifacts, prod_col, start=&#39;EarlyChrono&#39;, end=&#39;LateChrono&#39;, out_file=&#39;time_span_chart.png&#39;):</span>
+<span class="c1">#     &quot;&quot;&quot;Make time span chart for productions</span>
+<span class="c1">#</span>
+<span class="c1">#     Notes</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     1. Proportion groups not even</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     _alt.data_transformers.enable(&#39;json&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#     # work with smaller subset of data</span>
+<span class="c1">#     df = artifacts[[&#39;EarlyChrono&#39;, &#39;LateChrono&#39;, &#39;Catalan&#39;]][~artifacts[&#39;EarlyChrono&#39;].isnull()]</span>
+<span class="c1">#</span>
+<span class="c1">#     prods = df.iloc[0:5].groupby([&#39;Catalan&#39;, &#39;EarlyChrono&#39;, &#39;LateChrono&#39;]</span>
+<span class="c1">#                                 ).size().reset_index().rename(columns={0:&#39;count&#39;})  # frequency counts</span>
+<span class="c1">#     prods[&#39;freq&#39;] = 100*prods[&#39;count&#39;] / prods[&#39;count&#39;].sum()  # proportions</span>
+<span class="c1">#</span>
+<span class="c1">#     conditions = [                                # condition used to group proportions</span>
+<span class="c1">#         prods[&#39;freq&#39;]&lt;=10,</span>
+<span class="c1">#         (prods[&#39;freq&#39;]&gt;10) &amp; (prods[&#39;freq&#39;]&lt;=25),</span>
+<span class="c1">#         (prods[&#39;freq&#39;]&gt;25) &amp; (prods[&#39;freq&#39;]&lt;=50),</span>
+<span class="c1">#         (prods[&#39;freq&#39;]&gt;50) &amp; (prods[&#39;freq&#39;]&lt;=75),</span>
+<span class="c1">#         (prods[&#39;freq&#39;]&gt;75) &amp; (prods[&#39;freq&#39;]&lt;=90),</span>
+<span class="c1">#         (prods[&#39;freq&#39;]&gt;90) &amp; (prods[&#39;freq&#39;]&lt;=100)</span>
+<span class="c1">#     ]</span>
+<span class="c1">#</span>
+<span class="c1">#     groups = [&#39;&lt;10%&#39;, &#39;10-25%&#39;, &#39;25-50%&#39;, &#39;50-75%&#39;, &#39;75-90%&#39;, &#39;&gt;90%&#39;]  # group names</span>
+<span class="c1">#     prods[&#39;group&#39;] = _np.select(conditions, groups)  # apply conditions</span>
+<span class="c1">#</span>
+<span class="c1">#     periods = _pd.DataFrame({&#39;name&#39;:[&#39;Navetiforme&#39;,&#39;Talaiòtic&#39;,&#39;Postalaiòtic&#39;,&#39;Romana&#39;,&#39;Vàndala&#39;,&#39;Bizantina&#39;,</span>
+<span class="c1">#                                      &#39;Àndalusina&#39;,&#39;Medieval Cristiana&#39;,&#39;Moderna&#39;,&#39;Contemporània&#39;],</span>
+<span class="c1">#                             &#39;end&#39;:[-850, -550, -123, 455, 533, 902, 1229, 1492, 1789, 1900],</span>
+<span class="c1">#                             &#39;label_loc&#39;:[-1325.0, -700.0, -336.5, 166.0, 494.0, 717.5, 1065.5, 1360.5, 1640.5, 1844.5]</span>
+<span class="c1">#</span>
+<span class="c1">#                            })</span>
+<span class="c1">#</span>
+<span class="c1">#     chart = _alt.Chart(prods).mark_bar().encode(       # make chart with altair</span>
+<span class="c1">#         x=_alt.X(&#39;EarlyChrono:Q&#39;,</span>
+<span class="c1">#                 axis=_alt.Axis(title=&#39;Anys&#39;, grid=False)),</span>
+<span class="c1">#         x2=_alt.X(&#39;LateChrono:Q&#39;),</span>
+<span class="c1">#         y=_alt.Y(&#39;Catalan:N&#39;,</span>
+<span class="c1">#                 sort=_alt.SortField(field=&#39;EarlyChrono&#39;, op=&#39;mean&#39;, order=&#39;ascending&#39;),</span>
+<span class="c1">#                 axis=_alt.Axis(title=&#39;Producció&#39;),</span>
+<span class="c1">#                 scale=_alt.Scale(type=&#39;point&#39;)</span>
+<span class="c1">#                ),</span>
+<span class="c1"># #         size=&#39;freq:Q&#39;,</span>
+<span class="c1">#         size=_alt.Size(&#39;group:N&#39;, scale=_alt.Scale(domain=groups,</span>
+<span class="c1">#                                                  range=[10,30,50,70,90,110]</span>
+<span class="c1">#                                                 )),</span>
+<span class="c1">#         color=_alt.Color(&#39;group:N&#39;,</span>
+<span class="c1">#             legend=_alt.Legend(title=&#39;Proporció&#39;),</span>
+<span class="c1">#             scale=_alt.Scale(</span>
+<span class="c1">#                 domain=groups,</span>
+<span class="c1">#                 range=[&#39;#f7f7f7&#39;,&#39;#d9d9d9&#39;,&#39;#bdbdbd&#39;,&#39;#969696&#39;,&#39;#636363&#39;,&#39;#252525&#39;]))  # gradient of grays to black</span>
+<span class="c1">#     )</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#     rules = _alt.Chart(periods).mark_rule(color=&#39;#d9d9d9&#39;, opacity=0.5, strokeDash=[5,10]).encode(</span>
+<span class="c1">#         x=&#39;end&#39;,</span>
+<span class="c1">#     )</span>
+<span class="c1">#</span>
+<span class="c1">#     rule_labels = _alt.Chart(periods).mark_text(align=&#39;center&#39;,baseline=&#39;middle&#39;, angle=270,color=&#39;#bdbdbd&#39;).encode(</span>
+<span class="c1">#         text=&#39;name&#39;,</span>
+<span class="c1">#         x=&#39;label_loc&#39;</span>
+<span class="c1">#     )</span>
+<span class="c1">#</span>
+<span class="c1">#     return chart + rules + rule_labels</span>
+<span class="c1">#</span>
+<span class="c1"># #######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

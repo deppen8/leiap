@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.constants &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.constants</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.constants</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions to access some commonly-used constants and their translations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_waretypes"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_waretypes">[docs]</a><span class="k">def</span> <span class="nf">get_waretypes</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access the waretypes used in the database</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    requested_names : dict, list</span>
+<span class="sd">        A dictionary or list of waretypes. If lang=&#39;both&#39;, return a dictionary of english:catalan names</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">waretypes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;comuna&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;unknown_waretype&#39;</span><span class="p">:</span> <span class="s1">&#39;desconeguda&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;transport&#39;</span><span class="p">:</span> <span class="s1">&#39;transport&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="s1">&#39;emmagatzematge&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fine ware&#39;</span><span class="p">:</span> <span class="s1">&#39;fina&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cooking ware&#39;</span><span class="p">:</span> <span class="s1">&#39;cuina&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;table ware&#39;</span><span class="p">:</span> <span class="s1">&#39;taula&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;other&#39;</span><span class="p">:</span> <span class="s1">&#39;altre&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ritual&#39;</span><span class="p">:</span> <span class="s1">&#39;ritual&#39;</span>
+    <span class="p">}</span>
+
+    <span class="n">requested_names</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="n">waretypes</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">waretypes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">waretypes</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">requested_names</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_vesselparts"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_vesselparts">[docs]</a><span class="k">def</span> <span class="nf">get_vesselparts</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access the vessel parts used in the database</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    requested_names : dict, list</span>
+<span class="sd">        If language is &#39;both&#39;, then a dict is returned; otherwise a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vessel_parts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="s1">&#39;base&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;body&#39;</span><span class="p">:</span> <span class="s1">&#39;cos&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;carination&#39;</span><span class="p">:</span> <span class="s1">&#39;carinada&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;handle&#39;</span><span class="p">:</span> <span class="s1">&#39;nansa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lid&#39;</span><span class="p">:</span> <span class="s1">&#39;tapa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;neck&#39;</span><span class="p">:</span> <span class="s1">&#39;coll&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;other_vesselpart&#39;</span><span class="p">:</span> <span class="s1">&#39;altra part&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rim&#39;</span><span class="p">:</span> <span class="s1">&#39;vora&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;shoulder&#39;</span><span class="p">:</span> <span class="s1">&#39;espatlla&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;unknown_vesselpart&#39;</span><span class="p">:</span> <span class="s1">&#39;part desconeguda&#39;</span>
+    <span class="p">}</span>
+
+    <span class="n">requested_names</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="n">vessel_parts</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vessel_parts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">requested_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vessel_parts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">requested_names</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_talaiotic"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_talaiotic">[docs]</a><span class="k">def</span> <span class="nf">get_talaiotic</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Talaiotic period productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Talaiotic period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Punic amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora púnica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Talaiotic pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Talaiòtica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Attic black glaze pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Vernís Negre Àtica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Central Mediterranean punic amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora púnica del Mediterrani Central&#39;</span>
+         <span class="p">}</span>
+
+    <span class="n">productions</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">productions</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_balearic"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_balearic">[docs]</a><span class="k">def</span> <span class="nf">get_balearic</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Balearic period productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Balearic period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Punic Ebusitan amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Punicoebusitana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;South Italian amphora - Volcanic&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Sud-itàlica - Pasta Volcànica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Greco-Italic amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora greco-itàlica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Iberian amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora ibèrica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Italic amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Itàlica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Campanian black glazed pottery A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Vernís Negre Campaninan A&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Campanian black glazed pottery B&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Vernís Negre Campaninan B&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Campanian black glazed pottery C&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Vernís Negre Campaninan C&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Post-talaiotic pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Posttalaiòtica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Iberian common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica comuna ibèrica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Italic common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Itàlica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Punic common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Púnica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Catalan coast grey pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica grisa de la costa catalana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Punic Ebusitan common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Punicoebusitana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Ebusitan black glaze pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Vernís Negre Ebusitana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Massalian amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora massaliota&#39;</span>
+         <span class="p">}</span>
+
+    <span class="n">productions</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">productions</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_early_roman"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_early_roman">[docs]</a><span class="k">def</span> <span class="nf">get_early_roman</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Early Roman period productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Early Roman period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Tarraconense amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Tarraconense&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Salazones amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora de Salaons&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Gaulish amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora gala&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - Gaulish&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Gala&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;North African amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Nord-Africana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Thin walled pottery - Italic&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de parets fines itàlica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Thin walled pottery - Ebusitan&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de parets fines ebusitana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Roman cooking ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de Cuina Romana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - Classic&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Clàssic&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Thin walled pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica de parets fines&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Roman Ebusitan common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Romana Ebusitana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Tarraconense Maresme amphora&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora Tarraconense - Maresme&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Hispanic Amph- South Iberian Coast&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="s1">&#39;Hispanic Amph- Guadalquivir Valley&#39;</span><span class="p">:</span> <span class="s1">&#39;Àmfora de la vall del Guadalquivir&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Ebusitan Amph. - Roman&#39;</span><span class="p">:</span> <span class="kc">None</span>
+         <span class="p">}</span>
+
+    <span class="n">productions</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">productions</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_late_roman"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_late_roman">[docs]</a><span class="k">def</span> <span class="nf">get_late_roman</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Late Roman period productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Late Roman period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Late Roman amphorae (LRA)&#39;</span><span class="p">:</span> <span class="s1">&#39;Late Roman amphorae (LRA)&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - Hispanic&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Hispànica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - African A&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Africana A&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - African C&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Africana C&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Terra Sigillata - African D&#39;</span><span class="p">:</span> <span class="s1">&#39;Terra Sigillata - Africana D&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;DSP Derivee de sigille paleochretienne&#39;</span><span class="p">:</span> <span class="s1">&#39;DSP Derivee de sigille paleochretienne&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Roman common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Romana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Roman oil lamp&#39;</span><span class="p">:</span> <span class="s1">&#39;Llàntia romana&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Late Roman C&#39;</span><span class="p">:</span> <span class="s1">&#39;Late Roman C&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Late Roman cooking ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Late Roman cooking ware&#39;</span>
+         <span class="p">}</span>
+
+    <span class="n">productions</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">productions</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_islamic"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_islamic">[docs]</a><span class="k">def</span> <span class="nf">get_islamic</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Islamic period productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Islamic period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Islamic medieval common ware&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Comuna Medieval Islàmica&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;Islamic medieval glazed pottery&#39;</span><span class="p">:</span> <span class="s1">&#39;Ceràmica Vidrada Medieval Islàmica&#39;</span>
+         <span class="p">}</span>
+
+    <span class="n">productions</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">productions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">productions</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_misc_types"><a class="viewcode-back" href="../../_autosummary/leiap.constants.html#leiap.constants.get_misc_types">[docs]</a><span class="k">def</span> <span class="nf">get_misc_types</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access types that we usually include with productions (but might not be officially designated FabricTypeNames</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lang : {&#39;both&#39;, &#39;eng&#39;, &#39;cat&#39;}</span>
+<span class="sd">        The language you need for the output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    productions : dict, list</span>
+<span class="sd">        Islamic period productions. If lang=&#39;both&#39;, return dict, else return a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">materials_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Unworked clay&#39;</span><span class="p">:</span> <span class="s1">&#39;argila cuita&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;brick&#39;</span><span class="p">:</span> <span class="s1">&#39;maó&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;other&#39;</span><span class="p">:</span> <span class="s1">&#39;altre&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;other constr&#39;</span><span class="p">:</span> <span class="s1">&#39;altre material de construcció&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="s1">&#39;teula&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;unknown&#39;</span><span class="p">:</span> <span class="s1">&#39;indeterminada&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;vessel&#39;</span><span class="p">:</span> <span class="s1">&#39;altre vaixell&#39;</span>
+    <span class="p">}</span>
+
+    <span class="n">material_names</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">material_names</span> <span class="o">=</span> <span class="n">materials_dict</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;eng&#39;</span><span class="p">:</span>
+        <span class="n">material_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">materials_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">lang</span> <span class="o">==</span> <span class="s1">&#39;cat&#39;</span><span class="p">:</span>
+        <span class="n">material_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">materials_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">material_names</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

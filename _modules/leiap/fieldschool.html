@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.fieldschool &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.fieldschool</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.fieldschool</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These functions take care of some admin for the field team</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">_datetime</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="assign_chores"><a class="viewcode-back" href="../../_autosummary/leiap.fieldschool.html#leiap.fieldschool.assign_chores">[docs]</a><span class="k">def</span> <span class="nf">assign_chores</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="s1">&#39;chore_schedule.xlsx&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create equitable schedule of chore duties</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    csv_file : str</span>
+<span class="sd">        File path to CSV file where names and dates are stored</span>
+<span class="sd">    names : str</span>
+<span class="sd">        CSV column with crew member names</span>
+<span class="sd">    start_col, end_col : str</span>
+<span class="sd">        CSV columns with crew member start dates and end dates, respectively</span>
+<span class="sd">    start_date, end_date : str</span>
+<span class="sd">        First and last days, respectively, when chores are needed</span>
+<span class="sd">    out_file : str</span>
+<span class="sd">        File path or name for the output Excel</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    crew_dates : pandas DataFrame</span>
+<span class="sd">        DataFrame containing some info about how jobs were assigned. Useful for deciding if the results are fair. </span>
+<span class="sd">        </span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt; assign_chores(&#39;all_students.csv&#39;,</span>
+<span class="sd">                     names=&#39;student&#39;,</span>
+<span class="sd">                     start_col=&#39;arrive&#39;, end_col=&#39;depart&#39;,</span>
+<span class="sd">                     start_date=&#39;2017-06-27&#39;, end_date=&#39;2017-07-25&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># read in CSV file</span>
+    <span class="n">crew_dates</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_file</span><span class="p">)</span>
+
+    <span class="c1"># convert date columns to date type</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="n">start_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">start_col</span><span class="p">])</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="n">end_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">end_col</span><span class="p">])</span>
+    
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;workdays&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">crew_dates</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">workdays</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list to store all the days when chores are required</span>
+
+    <span class="c1"># function to loop through days</span>
+    <span class="k">def</span> <span class="nf">daterange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">days</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">start</span> <span class="o">+</span> <span class="n">_datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># make program start and end dates into pandas Timestamps</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>    
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">single_day</span> <span class="ow">in</span> <span class="n">daterange</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>  <span class="c1"># loop through days</span>
+        <span class="k">if</span> <span class="n">single_day</span><span class="o">.</span><span class="n">dayofweek</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>  <span class="c1"># if it is a workday</span>
+            <span class="n">workdays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_day</span><span class="p">)</span>  <span class="c1"># add it to the list</span>
+            <span class="c1"># find all present on that day</span>
+            <span class="n">crew_present</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">start_col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">single_day</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">end_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">single_day</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">crew_present</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="n">crew_dates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">person</span><span class="p">,</span> <span class="s1">&#39;workdays&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">person</span><span class="p">,</span> <span class="s1">&#39;workdays&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>  <span class="c1"># +1 to their workday count</span>
+
+    <span class="n">total_person_days</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;workdays&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">total_workdays</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">workdays</span><span class="p">)</span>
+    <span class="n">total_jobs</span> <span class="o">=</span> <span class="n">total_workdays</span> <span class="o">*</span> <span class="mi">6</span>  <span class="c1"># total number of chore slots to be filled</span>
+
+    <span class="c1"># calculate each person&#39;s fraction of person days</span>
+    <span class="c1">#     multiply this fraction by total jobs and round up for max jobs</span>
+    <span class="c1">#     calculate estimated breakfasts (max jobs x 0.33), lunches (max jobs x 0.33), and dinners (max jobs x 0.33)</span>
+    <span class="c1">#     initialize counts for each type of job</span>
+
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;day_fraction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;workdays&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_person_days</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max_jobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;day_fraction&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">total_jobs</span><span class="p">)</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;breakfast_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max_jobs&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;lunch_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max_jobs&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;dinner_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max_jobs&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="c1"># create dataframe with jobs as index</span>
+    <span class="n">job_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;breakfast1&#39;</span><span class="p">,</span> <span class="s1">&#39;breakfast2&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;lunch1&#39;</span><span class="p">,</span> <span class="s1">&#39;lunch2&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;dinner1&#39;</span><span class="p">,</span> <span class="s1">&#39;dinner2&#39;</span><span class="p">]</span>
+    <span class="n">chores</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">job_list</span><span class="p">)</span>
+
+    <span class="c1"># go day by day</span>
+    <span class="c1"># find subset of people who are present that day</span>
+    <span class="c1"># for each meal</span>
+    <span class="c1">#     1. find out who has not reached their quota for that job type yet</span>
+    <span class="c1">#     2. while number of assigned people is less than 2, </span>
+    <span class="c1">#            find those with the lowest job counts among those people</span>
+    <span class="c1">#     3. randomly select from those people</span>
+    <span class="c1">#     4. assign them to meal that day</span>
+    <span class="c1">#     5. remove them from the possible selections for that day</span>
+    <span class="c1">#     6. [repeat]</span>
+
+    <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="n">workdays</span><span class="p">:</span>
+        <span class="n">present_df</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">start_col</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">day</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">crew_dates</span><span class="p">[</span><span class="n">end_col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">day</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">present_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">job_list</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed! Not enough people present on &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">day</span><span class="p">))</span>
+        <span class="n">day_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">bf_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">bf_count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">bf_df</span> <span class="o">=</span> <span class="n">present_df</span><span class="p">[(</span><span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;breakfast_max&#39;</span><span class="p">])]</span>
+            <span class="n">min_ct</span> <span class="o">=</span> <span class="n">bf_df</span><span class="p">[</span><span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">pick_df</span> <span class="o">=</span> <span class="n">bf_df</span><span class="p">[</span><span class="n">bf_df</span><span class="p">[</span><span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_ct</span><span class="p">]</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">pick_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">person</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">person</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">day_list</span><span class="p">:</span>
+                <span class="n">day_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+                <span class="n">crew_dates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">person</span><span class="p">,</span> <span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">present_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">bf_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">lun_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">lun_count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">lun_df</span> <span class="o">=</span> <span class="n">present_df</span><span class="p">[(</span><span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;lunch_max&#39;</span><span class="p">])]</span>
+            <span class="n">min_ct</span> <span class="o">=</span> <span class="n">lun_df</span><span class="p">[</span><span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">pick_df</span> <span class="o">=</span> <span class="n">lun_df</span><span class="p">[</span><span class="n">lun_df</span><span class="p">[</span><span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_ct</span><span class="p">]</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">pick_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">person</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">person</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">day_list</span><span class="p">:</span>
+                <span class="n">day_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+                <span class="n">crew_dates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">person</span><span class="p">,</span> <span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">present_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">lun_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">din_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">din_count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">din_df</span> <span class="o">=</span> <span class="n">present_df</span><span class="p">[(</span><span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">present_df</span><span class="p">[</span><span class="s1">&#39;dinner_max&#39;</span><span class="p">])]</span>
+            <span class="n">min_ct</span> <span class="o">=</span> <span class="n">din_df</span><span class="p">[</span><span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">pick_df</span> <span class="o">=</span> <span class="n">din_df</span><span class="p">[</span><span class="n">din_df</span><span class="p">[</span><span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_ct</span><span class="p">]</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">pick_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">person</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">person</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">day_list</span><span class="p">:</span>
+                <span class="n">day_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+                <span class="n">crew_dates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">person</span><span class="p">,</span> <span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">present_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">din_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">roster</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">day_list</span><span class="p">)</span>  <span class="c1"># convert list to pandas Series</span>
+        <span class="n">chores</span><span class="p">[</span><span class="n">day</span><span class="o">.</span><span class="n">date</span><span class="p">()]</span> <span class="o">=</span> <span class="n">roster</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># add column to chores dataframe</span>
+
+    <span class="n">chores</span> <span class="o">=</span> <span class="n">chores</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># get dates as rows, jobs as columns</span>
+    
+    <span class="c1"># save to Excel</span>
+    <span class="n">chores_writer</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;xlsxwriter&#39;</span><span class="p">)</span>
+    <span class="n">chores</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">chores_writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;chores&#39;</span><span class="p">)</span>            
+    <span class="n">chores_writer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    
+    <span class="c1"># calculate a couple quick stats to evaluate how even the chores are distributed</span>
+    <span class="c1"># a negative &#39;max-assigned&#39; value indicates the person has more jobs than expected</span>
+    <span class="c1"># a positive &#39;max-assigned&#39; value indicates the person has fewer jobs than expected</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;assigned_jobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;breakfast_ct&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;lunch_ct&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;dinner_ct&#39;</span><span class="p">]</span>
+    <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max-assigned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;max_jobs&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">crew_dates</span><span class="p">[</span><span class="s1">&#39;assigned_jobs&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">crew_dates</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.io &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="leiap.checks" href="leiap.checks.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../modules.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db.html">Project database organization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>leiap.io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/leiap.io.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-leiap.io">
+<span id="leiap-io"></span><h1>leiap.io<a class="headerlink" href="#module-leiap.io" title="Permalink to this headline">¶</a></h1>
+<p>This file contains functions related to I/O from the database</p>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.get_credentials" title="leiap.io.get_credentials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_credentials</span></code></a>([credentials_path])</td>
+<td>Access database credentials from JSON file</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.connect2db" title="leiap.io.connect2db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connect2db</span></code></a>([driver])</td>
+<td>Open a connection to the database</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.db_query" title="leiap.io.db_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">db_query</span></code></a>(query_text,&nbsp;**kwargs)</td>
+<td>Send any SQL query to the database</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.load_points" title="leiap.io.load_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_points</span></code></a>([years])</td>
+<td>Get a DataFrame of points</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.load_points_simple" title="leiap.io.load_points_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_points_simple</span></code></a>(**kwargs)</td>
+<td>Get a DataFrame of points with the most typical query</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.load_points_by_year" title="leiap.io.load_points_by_year"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_points_by_year</span></code></a>(years,&nbsp;**kwargs)</td>
+<td>Get a DataFrame of points with the most typical query for specified year(s)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.load_artifacts" title="leiap.io.load_artifacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_artifacts</span></code></a>([sections,&nbsp;years,&nbsp;…])</td>
+<td>Get a DataFrame of artifacts</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.load_artifacts_by_year" title="leiap.io.load_artifacts_by_year"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_artifacts_by_year</span></code></a>(years[,&nbsp;discards])</td>
+<td>Get a DataFrame of artifacts with the most typical query for specified year(s)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.load_artifacts_simple" title="leiap.io.load_artifacts_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_artifacts_simple</span></code></a>([include_discards])</td>
+<td>Get a DataFrame of artifacts with the most typical query</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.load_productions_simple" title="leiap.io.load_productions_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_productions_simple</span></code></a>(**kwargs)</td>
+<td>Get a DataFrame of productions with the most typical query</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.io.load_production_cts_wts" title="leiap.io.load_production_cts_wts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_production_cts_wts</span></code></a>(**kwargs)</td>
+<td>Create a DataFrame of all points with columns for counts and weights of all productions</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.io.load_points_times" title="leiap.io.load_points_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_points_times</span></code></a>([warn])</td>
+<td>Get a DataFrame of points with datetimes cleaned and search times calculated</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="leiap.io.get_credentials">
+<code class="descclassname">leiap.io.</code><code class="descname">get_credentials</code><span class="sig-paren">(</span><em>credentials_path='credentials.json'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.get_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access database credentials from JSON file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>credentials_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Location of the credentials JSON file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>credentials</strong> – Dictionary containing the database connection details</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.connect2db">
+<code class="descclassname">leiap.io.</code><code class="descname">connect2db</code><span class="sig-paren">(</span><em>driver='{ODBC Driver 17 for SQL Server}'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#connect2db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.connect2db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a connection to the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>driver</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Database driver needed to connect</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>connection</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">MS SQL database connection</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.db_query">
+<code class="descclassname">leiap.io.</code><code class="descname">db_query</code><span class="sig-paren">(</span><em>query_text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#db_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.db_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send any SQL query to the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>query_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Full SQL query to pass to the database</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – DataFrame of query results</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_points">
+<code class="descclassname">leiap.io.</code><code class="descname">load_points</code><span class="sig-paren">(</span><em>years=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>years</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of desired years; can be strings or integers</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>points_df</strong> – DataFrame of all points</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_points_simple">
+<code class="descclassname">leiap.io.</code><code class="descname">load_points_simple</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_points_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_points_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of points with the most typical query</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>points_df</strong> – DataFrame of all points</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">pandas DataFrame</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_points_by_year">
+<code class="descclassname">leiap.io.</code><code class="descname">load_points_by_year</code><span class="sig-paren">(</span><em>years</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_points_by_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_points_by_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of points with the most typical query for specified year(s)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>years</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of desired years; can be strings or integers</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>points_df</strong> – DataFrame of all points for specified year(s)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_artifacts">
+<code class="descclassname">leiap.io.</code><code class="descname">load_artifacts</code><span class="sig-paren">(</span><em>sections=['base'], years=None, include_discards=False, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_artifacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_artifacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of artifacts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sections</strong> (<em>list of some set of</em>) – {‘all’, ‘base’, ‘metrics’, ‘classify’, ‘production’, ‘tile_brick’, ‘waretypes’, ‘vesselparts’, ‘macro_fabric’}
+Sections to include in the output DataFrame. Each section refers to a group of column names.</li>
+<li><strong>years</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of desired years; can be strings or integers</li>
+<li><strong>include_discards</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True, return all records, even artifacts marked as Discarded.</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>artifacts_df</strong> – DataFrame of all artifacts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_artifacts_simple">
+<code class="descclassname">leiap.io.</code><code class="descname">load_artifacts_simple</code><span class="sig-paren">(</span><em>include_discards=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_artifacts_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_artifacts_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of artifacts with the most typical query</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>include_discards</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True, return all records, even artifacts marked as Discarded.</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>artifacts_df</strong> – DataFrame of all artifacts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_artifacts_by_year">
+<code class="descclassname">leiap.io.</code><code class="descname">load_artifacts_by_year</code><span class="sig-paren">(</span><em>years</em>, <em>discards=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_artifacts_by_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_artifacts_by_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of artifacts with the most typical query for specified year(s)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>years</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of desired years; can be strings or integers</li>
+<li><strong>discards</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True, return all records, even artifacts marked as Discarded.</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>artifacts_df</strong> – DataFrame of all artifacts for specified year(s)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_productions_simple">
+<code class="descclassname">leiap.io.</code><code class="descname">load_productions_simple</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_productions_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_productions_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of productions with the most typical query</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>prods_df</strong> – DataFrame of all productions</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">pandas DataFrame</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_production_cts_wts">
+<code class="descclassname">leiap.io.</code><code class="descname">load_production_cts_wts</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_production_cts_wts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_production_cts_wts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a DataFrame of all points with columns for counts and weights of all productions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>cts_wts</strong> – DataFrame of all points with counts and weights for all productions</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">pandas DataFrame</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Also pulls in some non-vessel artifact types (e.g., tile, brick, other construction material)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.io.load_points_times">
+<code class="descclassname">leiap.io.</code><code class="descname">load_points_times</code><span class="sig-paren">(</span><em>warn='enable'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/io.html#load_points_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.io.load_points_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a DataFrame of points with datetimes cleaned and search times calculated</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>warn</strong> (<em>{'enable'</em><em>, </em><em>'disable'}</em>) – Argument passed to the <cite>calc_search_time()</cite> function specifying whether or to print a generic warning message.</li>
+<li><strong>**kwargs</strong> – Optional arguments that are passed to get_credentials()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pts</strong> – DataFrame of all points with adjusted datetimes and search times</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="leiap.checks.html" class="btn btn-neutral float-right" title="leiap.checks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../modules.html" class="btn btn-neutral" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

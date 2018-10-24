@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.report &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="leiap.progress" href="leiap.progress.html" />
+    <link rel="prev" title="leiap.mapping" href="leiap.mapping.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>leiap.report</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/leiap.report.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-leiap.report">
+<span id="leiap-report"></span><h1>leiap.report<a class="headerlink" href="#module-leiap.report" title="Permalink to this headline">¶</a></h1>
+<p>This file contains functions related to the annual report</p>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.fields_summary_table" title="leiap.report.fields_summary_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fields_summary_table</span></code></a>(points,&nbsp;artifacts[,&nbsp;…])</td>
+<td>Create table (in Spanish) with basic stats by field</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.points_per_group" title="leiap.report.points_per_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points_per_group</span></code></a>(points,&nbsp;grouper_col[,&nbsp;ct_col])</td>
+<td>Count the points in the given group</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.artifacts_per_group" title="leiap.report.artifacts_per_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artifacts_per_group</span></code></a>(artifacts,&nbsp;grouper_col)</td>
+<td>Count the artifacts in the given group</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.pos_points_per_group" title="leiap.report.pos_points_per_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pos_points_per_group</span></code></a>(artifacts,&nbsp;grouper_col)</td>
+<td>Count the number of points with artifacts in the given group</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="leiap.report.fields_summary_table">
+<code class="descclassname">leiap.report.</code><code class="descname">fields_summary_table</code><span class="sig-paren">(</span><em>points</em>, <em>artifacts</em>, <em>fid_col='geo_field'</em>, <em>save_excel=False</em>, <em>excel_file='field_counts.xlsx'</em>, <em>excel_sheet='field_data'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#fields_summary_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.fields_summary_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create table (in Spanish) with basic stats by field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>points</strong> (<em>DataFrame</em>) – pandas DataFrame of survey points</li>
+<li><strong>artifacts</strong> (<em>DataFrame</em>) – pandas DataFrame of artifacts</li>
+<li><strong>fid_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Column containing the field identifier to use for grouping</li>
+<li><strong>save_excel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Specify whether to write DataFrame to an Excel sheet</li>
+<li><strong>excel_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename for Excel</li>
+<li><strong>excel_sheet</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Sheet name for Excel</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fields_data</strong> – DataFrame version of the created table</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The table is in the form:</p>
+<div class="line-block">
+<div class="line">Polígono | Parcela | Subparcela |   Id   | Núm. Pts. | Núm. Frags. | Pos. Pts. |</div>
+<div class="line">——– | ——- | ———- | —— | ——— | ———– | ——— |</div>
+<div class="line-block">
+<div class="line">03    |   027   |      0     | 030270 |    351    |     39      |     26    |</div>
+<div class="line">16    |   092   |      a     | 16092a |    105    |     58      |     51    |</div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.report.points_per_group">
+<code class="descclassname">leiap.report.</code><code class="descname">points_per_group</code><span class="sig-paren">(</span><em>points</em>, <em>grouper_col</em>, <em>ct_col='Núm. Pts.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#points_per_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.points_per_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the points in the given group</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>points</strong> (<em>pandas DataFrame</em>) – Point observations</li>
+<li><strong>grouper_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column in <cite>points</cite> that you want to use to group, usually ‘geo_field’ or similar</li>
+<li><strong>ct_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to give the new column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Points grouped and counted according to the grouper_col</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.report.artifacts_per_group">
+<code class="descclassname">leiap.report.</code><code class="descname">artifacts_per_group</code><span class="sig-paren">(</span><em>artifacts</em>, <em>grouper_col</em>, <em>ct_col='Núm. Frags.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#artifacts_per_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.artifacts_per_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the artifacts in the given group</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>artifacts</strong> (<em>pandas DataFrame</em>) – Artifact observations</li>
+<li><strong>grouper_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column in <cite>artifacts</cite> that you want to use to group, usually ‘geo_field’ or similar</li>
+<li><strong>ct_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to give the new column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Artifacts grouped and counted according to the grouper_col</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.report.pos_points_per_group">
+<code class="descclassname">leiap.report.</code><code class="descname">pos_points_per_group</code><span class="sig-paren">(</span><em>artifacts</em>, <em>grouper_col</em>, <em>pt_id_col='SurveyPointId'</em>, <em>ct_col='Pos. Pts.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#pos_points_per_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.pos_points_per_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of points with artifacts in the given group</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>artifacts</strong> (<em>pandas DataFrame</em>) – Artifact observations</li>
+<li><strong>grouper_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Column in <cite>artifacts</cite> that you want to use to group, usually ‘geo_field’ or similar</li>
+<li><strong>pt_id_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Column that contains unique point identifier, usually ‘SurveyPointId’</li>
+<li><strong>ct_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to give the new column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Number of points with artifacts grouped and counted according to the grouper_col</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="leiap.progress.html" class="btn btn-neutral float-right" title="leiap.progress" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="leiap.mapping.html" class="btn btn-neutral" title="leiap.mapping" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

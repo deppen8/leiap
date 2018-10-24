@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.mapping &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.mapping</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.mapping</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions for making maps</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">.spatial</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.report</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># import cartopy.crs as _ccrs</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">_plt</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="field_explorer"><a class="viewcode-back" href="../../_autosummary/leiap.mapping.html#leiap.mapping.field_explorer">[docs]</a><span class="k">def</span> <span class="nf">field_explorer</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">fields_shp_path</span><span class="p">,</span> <span class="n">html_file_out</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create bokeh map with summary information about all fields</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artifacts, points : pandas DataFrames</span>
+<span class="sd">    fields_shp_path : str</span>
+<span class="sd">        Path to the shapefile of fields</span>
+<span class="sd">    html_file_out : str</span>
+<span class="sd">        Path to save the output file</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If you want to print the output in a Jupyter notebook, use</span>
+<span class="sd">    </span>
+<span class="sd">    `from bokeh.io import output_notebook; output_notebook()`</span>
+<span class="sd">    </span>
+<span class="sd">    before running the function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="k">import</span> <span class="n">show</span>
+    <span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="k">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">output_file</span>
+    <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="p">(</span><span class="n">GeoJSONDataSource</span><span class="p">,</span>
+                              <span class="n">HoverTool</span><span class="p">,</span> <span class="n">PanTool</span><span class="p">,</span> <span class="n">WheelZoomTool</span><span class="p">,</span> <span class="n">BoxZoomTool</span><span class="p">,</span> <span class="n">ResetTool</span><span class="p">,</span>
+                              <span class="n">NumeralTickFormatter</span><span class="p">)</span>
+
+    <span class="n">geo_artifacts</span> <span class="o">=</span> <span class="n">find_geo_field</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">fields_shp_path</span><span class="p">)</span>  <span class="c1"># find geofield for artifacts</span>
+    <span class="n">geo_points</span> <span class="o">=</span> <span class="n">find_geo_field</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">fields_shp_path</span><span class="p">)</span>        <span class="c1"># find geofield for points</span>
+    
+    <span class="n">fields_sum</span> <span class="o">=</span> <span class="n">fields_summary_table</span><span class="p">(</span><span class="n">geo_points</span><span class="p">,</span> <span class="n">geo_artifacts</span><span class="p">)</span>  <span class="c1"># summarize artifacts by geofield</span>
+    <span class="n">fields_shp</span> <span class="o">=</span> <span class="n">read_fields_shp</span><span class="p">(</span><span class="n">fields_shp_path</span><span class="p">)</span>               <span class="c1"># get fields shapefile as geodataframe</span>
+    
+    <span class="c1"># attach artifact summaries to fields geodataframe</span>
+    <span class="n">fields_merge</span> <span class="o">=</span> <span class="n">fields_shp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">fields_sum</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;fid&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;Id&#39;</span><span class="p">)</span>
+    <span class="n">fields_merge</span> <span class="o">=</span> <span class="n">fields_merge</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>        <span class="c1"># renaming columns makes them usable</span>
+        <span class="s1">&#39;Polígono&#39;</span><span class="p">:</span> <span class="s1">&#39;polygon&#39;</span><span class="p">,</span>                           <span class="c1"># as tooltips in the bokeh plot</span>
+        <span class="s1">&#39;Parcela&#39;</span><span class="p">:</span> <span class="s1">&#39;parcel&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Subparcela&#39;</span><span class="p">:</span> <span class="s1">&#39;subparcel&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Id&#39;</span><span class="p">:</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">:</span> <span class="s1">&#39;n_pts&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">:</span> <span class="s1">&#39;n_frags&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">:</span> <span class="s1">&#39;pos_pts&#39;</span>
+    <span class="p">})</span>
+    
+    <span class="n">surveyed</span> <span class="o">=</span> <span class="n">fields_merge</span><span class="p">[</span><span class="o">~</span><span class="n">fields_merge</span><span class="p">[</span><span class="s1">&#39;n_pts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>      <span class="c1"># get separate dataframes for</span>
+    <span class="n">unsurveyed</span> <span class="o">=</span> <span class="n">fields_merge</span><span class="p">[</span><span class="n">fields_merge</span><span class="p">[</span><span class="s1">&#39;n_pts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>     <span class="c1"># surveyed and unsurveyed fields</span>
+    <span class="n">surveyed_geojson</span> <span class="o">=</span> <span class="n">surveyed</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>                   <span class="c1"># convert both to geo_json</span>
+    <span class="n">unsurveyed_geojson</span> <span class="o">=</span> <span class="n">unsurveyed</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+
+    <span class="n">surveyed_source</span> <span class="o">=</span> <span class="n">GeoJSONDataSource</span><span class="p">(</span><span class="n">geojson</span><span class="o">=</span><span class="n">surveyed_geojson</span><span class="p">)</span>       <span class="c1"># convert JSON to</span>
+    <span class="n">unsurveyed_source</span> <span class="o">=</span> <span class="n">GeoJSONDataSource</span><span class="p">(</span><span class="n">geojson</span><span class="o">=</span><span class="n">unsurveyed_geojson</span><span class="p">)</span>   <span class="c1"># bokeh GeoJSONDataSource</span>
+    
+    <span class="n">output_file</span><span class="p">(</span><span class="n">html_file_out</span><span class="p">)</span>
+
+    <span class="n">surveyed_hover</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Status&#39;</span><span class="p">,</span> <span class="s1">&#39;surveyed&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Campo&#39;</span><span class="p">,</span> <span class="s1">&#39;@fid&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;@n_pts&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;@pos_pts&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;@n_frags&#39;</span><span class="p">)</span>    
+    <span class="p">]</span>
+
+    <span class="n">unsurveyed_hover</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Status&#39;</span><span class="p">,</span> <span class="s1">&#39;not surveyed&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Campo&#39;</span><span class="p">,</span> <span class="s1">&#39;@fid&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span> 
+               <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">PanTool</span><span class="p">(),</span> <span class="n">WheelZoomTool</span><span class="p">(),</span> <span class="n">BoxZoomTool</span><span class="p">(),</span> <span class="n">ResetTool</span><span class="p">()])</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">xaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">NumeralTickFormatter</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">NumeralTickFormatter</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">patches</span><span class="p">(</span><span class="n">xs</span><span class="o">=</span><span class="s1">&#39;xs&#39;</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="s1">&#39;ys&#39;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">surveyed_source</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;lightgreen&#39;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">add_tools</span><span class="p">(</span><span class="n">HoverTool</span><span class="p">(</span><span class="n">renderers</span><span class="o">=</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">tooltips</span><span class="o">=</span><span class="n">surveyed_hover</span><span class="p">))</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">patches</span><span class="p">(</span><span class="n">xs</span><span class="o">=</span><span class="s1">&#39;xs&#39;</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="s1">&#39;ys&#39;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">unsurveyed_source</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;seashell&#39;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">add_tools</span><span class="p">(</span><span class="n">HoverTool</span><span class="p">(</span><span class="n">renderers</span><span class="o">=</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">tooltips</span><span class="o">=</span><span class="n">unsurveyed_hover</span><span class="p">))</span>
+
+    <span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="single_field_map"><a class="viewcode-back" href="../../_autosummary/leiap.mapping.html#leiap.mapping.single_field_map">[docs]</a><span class="k">def</span> <span class="nf">single_field_map</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">fields_gdf</span><span class="p">,</span> <span class="n">axis_len</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a map centered on a specified field</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    field : str</span>
+<span class="sd">        Survey field ID for field of interest</span>
+<span class="sd">    fields_gdf : geopandas GeoDataFrame</span>
+<span class="sd">        geopandas GeoDataFrame of all fields</span>
+<span class="sd">    axis_len : int, optional</span>
+<span class="sd">        Length of both x and y axes</span>
+<span class="sd">    save_path : str, optional</span>
+<span class="sd">        If not None, location and filename for output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    field_map : matplotlib Figure</span>
+<span class="sd">        Styled map of desired field</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">fields_gdf</span><span class="p">[</span><span class="n">fields_gdf</span><span class="p">[</span><span class="s1">&#39;fid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">field</span><span class="p">]</span>  <span class="c1"># isolate desired field as a gdf</span>
+    <span class="n">unselected</span> <span class="o">=</span> <span class="n">fields_gdf</span><span class="p">[</span><span class="n">fields_gdf</span><span class="p">[</span><span class="s1">&#39;fid&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">field</span><span class="p">]</span>  <span class="c1"># get all other fields as a gdf</span>
+
+    <span class="n">bounds</span> <span class="o">=</span> <span class="n">selected</span><span class="o">.</span><span class="n">bounds</span>  <span class="c1"># find bounding box of selected field and extract mins and maxs</span>
+    <span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">bounds</span><span class="o">.</span><span class="n">minx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="o">.</span><span class="n">maxx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="o">.</span><span class="n">miny</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="o">.</span><span class="n">maxy</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">h_mid</span> <span class="o">=</span> <span class="n">minx</span> <span class="o">+</span> <span class="p">((</span><span class="n">maxx</span> <span class="o">-</span> <span class="n">minx</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># find horizontal midpoint of selected field&#39;s bounding box</span>
+    <span class="n">v_mid</span> <span class="o">=</span> <span class="n">miny</span> <span class="o">+</span> <span class="p">((</span><span class="n">maxy</span> <span class="o">-</span> <span class="n">miny</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># find vertical midpoint</span>
+
+    <span class="n">xax_min</span> <span class="o">=</span> <span class="n">h_mid</span> <span class="o">-</span> <span class="n">axis_len</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># find min/max dimensions from midpoints</span>
+    <span class="n">xax_max</span> <span class="o">=</span> <span class="n">h_mid</span> <span class="o">+</span> <span class="n">axis_len</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">yax_min</span> <span class="o">=</span> <span class="n">v_mid</span> <span class="o">-</span> <span class="n">axis_len</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">yax_max</span> <span class="o">=</span> <span class="n">v_mid</span> <span class="o">+</span> <span class="n">axis_len</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="n">field_map</span> <span class="o">=</span> <span class="n">draw_single_field_map</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">unselected</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">xax_min</span><span class="p">,</span> <span class="n">xax_max</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">yax_min</span><span class="p">,</span> <span class="n">yax_max</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>  <span class="c1"># save, if desired</span>
+        <span class="n">field_map</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+
+    <span class="n">_plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">field_map</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<span class="c1"># def draw_single_field_map(target_field_gdf, other_fields_gdf, xlim, ylim):</span>
+<span class="c1">#     &quot;&quot;&quot;Create map image for single field</span>
+<span class="c1">#</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     target_field_gdf : geopandas GeoDataFrame</span>
+<span class="c1">#         A GeoDataFrame of one row with the survey field of interest</span>
+<span class="c1">#     other_fields_gdf : geopandas GeoDataFrame</span>
+<span class="c1">#         All other fields</span>
+<span class="c1">#     xlim : two-member list or tuple of floats</span>
+<span class="c1">#         x axis min and max</span>
+<span class="c1">#     ylim : two-member list or tuple of floats</span>
+<span class="c1">#         y axis min and max</span>
+<span class="c1">#</span>
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     fig : matplotlib Figure</span>
+<span class="c1">#         Figure object that can be printed or saved</span>
+<span class="c1">#</span>
+<span class="c1">#     Notes</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     This function is defined separately from `single_field_map()` so that all of the cartographic/design elements of the plot are conveniently grouped in one function</span>
+<span class="c1">#</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#     fig = _plt.figure(figsize=(5, 5))  # create empty figure</span>
+<span class="c1">#     ax = fig.add_subplot(1, 1, 1, projection=_ccrs.UTM(&#39;31S&#39;))  # create ax to plot on</span>
+<span class="c1">#     ax.set_extent((xlim[0], xlim[1], ylim[0], ylim[1]), crs=_ccrs.UTM(&#39;31S&#39;))</span>
+<span class="c1">#     ax.add_geometries(other_fields_gdf.geometry, crs=_ccrs.UTM(&#39;31S&#39;), facecolor=&#39;gray&#39;)  # add &#39;other&#39; fields</span>
+<span class="c1">#     ax.add_geometries(target_field_gdf.geometry, crs=_ccrs.UTM(&#39;31S&#39;), facecolor=&#39;green&#39;)  # add central field</span>
+<span class="c1">#</span>
+<span class="c1">#     return fig</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

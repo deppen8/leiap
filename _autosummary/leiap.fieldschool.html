@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.fieldschool &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="leiap.constants" href="leiap.constants.html" />
+    <link rel="prev" title="leiap.progress" href="leiap.progress.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>leiap.fieldschool</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_autosummary/leiap.fieldschool.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-leiap.fieldschool">
+<span id="leiap-fieldschool"></span><h1>leiap.fieldschool<a class="headerlink" href="#module-leiap.fieldschool" title="Permalink to this headline">¶</a></h1>
+<p>These functions take care of some admin for the field team</p>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.fieldschool.assign_chores" title="leiap.fieldschool.assign_chores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_chores</span></code></a>(csv_file,&nbsp;names,&nbsp;start_col,&nbsp;…)</td>
+<td>Create equitable schedule of chore duties</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="leiap.fieldschool.assign_chores">
+<code class="descclassname">leiap.fieldschool.</code><code class="descname">assign_chores</code><span class="sig-paren">(</span><em>csv_file</em>, <em>names</em>, <em>start_col</em>, <em>end_col</em>, <em>start_date</em>, <em>end_date</em>, <em>out_file='chore_schedule.xlsx'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/fieldschool.html#assign_chores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.fieldschool.assign_chores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create equitable schedule of chore duties</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>csv_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – File path to CSV file where names and dates are stored</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – CSV column with crew member names</li>
+<li><strong>end_col</strong> (<em>start_col</em><em>,</em>) – CSV columns with crew member start dates and end dates, respectively</li>
+<li><strong>end_date</strong> (<em>start_date</em><em>,</em>) – First and last days, respectively, when chores are needed</li>
+<li><strong>out_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – File path or name for the output Excel</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>crew_dates</strong> – DataFrame containing some info about how jobs were assigned. Useful for deciding if the results are fair.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<dl class="docutils">
+<dt>&gt;&gt; assign_chores(‘all_students.csv’,</dt>
+<dd>names=’student’,
+start_col=’arrive’, end_col=’depart’,
+start_date=‘2017-06-27’, end_date=‘2017-07-25’)</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="leiap.constants.html" class="btn btn-neutral float-right" title="leiap.constants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="leiap.progress.html" class="btn btn-neutral" title="leiap.progress" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.spatial &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.spatial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.spatial</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions related to spatial data operations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">_gpd</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span> <span class="k">as</span> <span class="n">_Point</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="find_geo_field"><a class="viewcode-back" href="../../_autosummary/leiap.spatial.html#leiap.spatial.find_geo_field">[docs]</a><span class="k">def</span> <span class="nf">find_geo_field</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fields_shp_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the identifier for the field where the point or artifact lies geographically.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Points or Artifacts DataFrame; must contain &#39;Easting&#39; and &#39;Northing&#39; columns</span>
+<span class="sd">    fields_shp_path : str</span>
+<span class="sd">        Path to the shapefile (.shp) containing the fields</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    joined_df : pandas DataFrame</span>
+<span class="sd">        Identical to the input points DataFrame with an added &#39;geo_field&#39; column</span>
+<span class="sd">        </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">_gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">fields_shp_path</span><span class="p">)</span>  <span class="c1"># load all fields</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;fid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;MASA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;PARCELA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">+</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;SUBPARCE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[[</span><span class="s1">&#39;fid&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]]</span>  <span class="c1"># get only columns we need</span>
+    
+    <span class="n">geometry</span> <span class="o">=</span> <span class="p">[</span><span class="n">_Point</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Easting&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>  <span class="c1"># make coords into shapely Points</span>
+                                         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Northing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))]</span>
+    <span class="n">pts_gdf</span> <span class="o">=</span> <span class="n">_gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>  <span class="c1"># make Points into GeoDataFrame </span>
+    <span class="n">pts_gdf</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">crs</span>  <span class="c1"># make coordinate systems equivalent</span>
+    
+    <span class="n">joined_df</span> <span class="o">=</span> <span class="n">_gpd</span><span class="o">.</span><span class="n">sjoin</span><span class="p">(</span><span class="n">pts_gdf</span><span class="p">,</span>
+                           <span class="n">fields</span><span class="p">,</span>
+                           <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span>
+                           <span class="n">op</span><span class="o">=</span><span class="s1">&#39;intersects&#39;</span><span class="p">)</span>  <span class="c1"># do a spatial join to find the ACTUAL fields that intersect locations</span>
+    <span class="n">joined_df</span> <span class="o">=</span> <span class="n">joined_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fid&#39;</span><span class="p">:</span> <span class="s1">&#39;geo_field&#39;</span><span class="p">})</span>  <span class="c1"># returns the geo_field for every record</span>
+    
+    <span class="k">return</span> <span class="n">joined_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="find_artifact_coords"><a class="viewcode-back" href="../../_autosummary/leiap.spatial.html#leiap.spatial.find_artifact_coords">[docs]</a><span class="k">def</span> <span class="nf">find_artifact_coords</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">join_col</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add Easting and Northing to artifacts</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artifacts : pandas DataFrame</span>
+<span class="sd">        DataFrame of artifact records</span>
+<span class="sd">    points : pandas DataFrame</span>
+<span class="sd">        DataFrame of points; must have &#39;Easting&#39;, &#39;Northing&#39;, and &lt;join_col&gt; columns</span>
+<span class="sd">    join_col : str</span>
+<span class="sd">        Column on which to join artifacts and points</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    artifacts : pandas DataFrame</span>
+<span class="sd">        Identical to artifacts input DataFrame with &#39;Easting&#39;, &#39;Northing&#39; columns added</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[[</span><span class="s1">&#39;Easting&#39;</span><span class="p">,</span> <span class="s1">&#39;Northing&#39;</span><span class="p">,</span> <span class="n">join_col</span><span class="p">]]</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">join_col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">artifacts</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="read_fields_shp"><a class="viewcode-back" href="../../_autosummary/leiap.spatial.html#leiap.spatial.read_fields_shp">[docs]</a><span class="k">def</span> <span class="nf">read_fields_shp</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load and clean up the Survey_Fields_Master.shp file</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Not meant to be a generic load function! Designed to work specifically with the file we have been using.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">_gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>  <span class="c1"># load all fields</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;fid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;MASA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;PARCELA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">+</span> <span class="n">fields</span><span class="p">[</span><span class="s1">&#39;SUBPARCE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[[</span><span class="s1">&#39;fid&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]]</span>  <span class="c1"># get only columns we need</span>
+    <span class="k">return</span> <span class="n">fields</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

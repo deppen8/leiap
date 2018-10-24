@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.checks &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.checks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.checks</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Some of the functions check the data entered in the database for errors or incongruities.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">leiap.io</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="check_all"><a class="viewcode-back" href="../../_autosummary/leiap.checks.html#leiap.checks.check_all">[docs]</a><span class="k">def</span> <span class="nf">check_all</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Run all check functions with some basic parameters</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    checks : dict of pandas DataFrames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">checks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">checks</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">check_coords_in_municipi</span><span class="p">()</span>
+    
+    <span class="n">checks</span><span class="p">[</span><span class="s1">&#39;handmade&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">check_handmade</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Width&#39;</span><span class="p">,</span> <span class="s1">&#39;Thickness&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">]:</span>
+        <span class="n">checks</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span> <span class="o">=</span> <span class="n">check_measurement</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">checks</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="check_coords_in_municipi"><a class="viewcode-back" href="../../_autosummary/leiap.checks.html#leiap.checks.check_coords_in_municipi">[docs]</a><span class="k">def</span> <span class="nf">check_coords_in_municipi</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Detect Eastings or Northings that do not lie within Son Servera</span>
+<span class="sd">    &quot;&quot;&quot;</span>   
+    <span class="c1"># Son Servera municipality min/max coordinates</span>
+    <span class="n">min_easting</span><span class="p">,</span> <span class="n">max_easting</span> <span class="o">=</span> <span class="mf">527509.3825000008</span><span class="p">,</span> <span class="mf">537483.8490000003</span>
+    <span class="n">min_northing</span><span class="p">,</span> <span class="n">max_northing</span> <span class="o">=</span> <span class="mf">4383439.635000001</span><span class="p">,</span> <span class="mf">4391457.568000001</span>
+    
+    <span class="n">points</span> <span class="o">=</span> <span class="n">load_points</span><span class="p">()</span>
+    <span class="n">bad_coords</span> <span class="o">=</span> <span class="n">points</span><span class="p">[(</span><span class="n">points</span><span class="p">[</span><span class="s1">&#39;Easting&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_easting</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="s1">&#39;Easting&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_easting</span><span class="p">)</span> <span class="o">|</span>
+                        <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="s1">&#39;Northing&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_northing</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="s1">&#39;Northing&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_northing</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">bad_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Some problems detected with the Eastings/Northings&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No problems detected with the Eastings/Northings&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">bad_coords</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="check_handmade"><a class="viewcode-back" href="../../_autosummary/leiap.checks.html#leiap.checks.check_handmade">[docs]</a><span class="k">def</span> <span class="nf">check_handmade</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Find any indigenous sherds that are not marked as handmade</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;classify&#39;</span><span class="p">])</span>
+    
+    <span class="c1"># types that are always handmade (hecho a mano)</span>
+    <span class="n">amano_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bronze Age pottery&#39;</span><span class="p">,</span> <span class="s1">&#39;Talaiotic pottery&#39;</span><span class="p">,</span> <span class="s1">&#39;Post-talaiotic pottery&#39;</span><span class="p">]</span>
+    <span class="n">flagged</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[(</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;FabricTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">amano_types</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;ManufactureMethod&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="k">if</span> <span class="n">flagged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Some problems detected with handmade pottery&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No problems detected with handmade pottery&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">flagged</span><span class="p">[[</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="s1">&#39;FabricTypeName&#39;</span><span class="p">,</span> <span class="s1">&#39;ManufactureMethod&#39;</span><span class="p">]]</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="check_measurement"><a class="viewcode-back" href="../../_autosummary/leiap.checks.html#leiap.checks.check_measurement">[docs]</a><span class="k">def</span> <span class="nf">check_measurement</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">sd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Detect outliers</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    measure : {&#39;Length&#39;, &#39;Width&#39;, &#39;Thickness&#39;, &#39;Weight&#39;}</span>
+<span class="sd">        Measurement column to check</span>
+<span class="sd">    sd : number</span>
+<span class="sd">        Cutoff point; number of standard deviations from the mean</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    outliers : pandas DataFrame</span>
+<span class="sd">        Outlier artifacts based on input parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="nb">abs</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">])</span>
+    <span class="n">outliers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">sd</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span> <span class="o">&amp;</span>
+                  <span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">outliers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There were &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; outliers (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; SD) detected in &#39;</span><span class="o">+</span><span class="n">measure</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No outliers (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; SD) detected in &#39;</span><span class="o">+</span><span class="n">measure</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outliers</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

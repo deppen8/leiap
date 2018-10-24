@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.io &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions related to I/O from the database</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">from</span> <span class="nn">leiap.time</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="get_credentials"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_credentials</span><span class="p">(</span><span class="n">credentials_path</span><span class="o">=</span><span class="s1">&#39;credentials.json&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access database credentials from JSON file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    credentials_path : str</span>
+<span class="sd">        Location of the credentials JSON file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    credentials : dict</span>
+<span class="sd">        Dictionary containing the database connection details</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">json</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">credentials_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">credentials</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="connect2db"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.connect2db">[docs]</a><span class="k">def</span> <span class="nf">connect2db</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="s1">&#39;{ODBC Driver 17 for SQL Server}&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Open a connection to the database</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    driver : str, optional</span>
+<span class="sd">        Database driver needed to connect</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    connection : MS SQL database connection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pyodbc</span>
+    <span class="kn">from</span> <span class="nn">sys</span> <span class="k">import</span> <span class="n">platform</span>
+
+    <span class="k">if</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux2&quot;</span><span class="p">:</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;libmsodbcsql.17.dylib&quot;</span>  <span class="c1"># may not be necessary for all macOS/Linux users</span>
+
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">get_credentials</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;DRIVER=&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span>
+                                <span class="s1">&#39;;SERVER=&#39;</span> <span class="o">+</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">][</span><span class="s1">&#39;server_name&#39;</span><span class="p">]</span> <span class="o">+</span>
+                                <span class="s1">&#39;;DATABASE=&#39;</span> <span class="o">+</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">][</span><span class="s1">&#39;db_name&#39;</span><span class="p">]</span> <span class="o">+</span>
+                                <span class="s1">&#39;;UID=&#39;</span> <span class="o">+</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">][</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">+</span>
+                                <span class="s1">&#39;;PWD=&#39;</span> <span class="o">+</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">][</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">connection</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="db_query"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.db_query">[docs]</a><span class="k">def</span> <span class="nf">db_query</span><span class="p">(</span><span class="n">query_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Send any SQL query to the database</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    query_text : str</span>
+<span class="sd">        Full SQL query to pass to the database</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        DataFrame of query results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">connect2db</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query_text</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_points"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points">[docs]</a><span class="k">def</span> <span class="nf">load_points</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    years : list</span>
+<span class="sd">        List of desired years; can be strings or integers</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    points_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all points</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT SurveyPoint.*, Field.FieldNumber, Surveyor.SurveyorName </span>
+<span class="s2">               FROM SurveyPoint </span>
+<span class="s2">               LEFT JOIN Field ON SurveyPoint.FieldId=Field.FieldId</span>
+<span class="s2">               LEFT JOIN Surveyor ON SurveyPoint.SurveyorId=Surveyor.SurveyorId</span>
+<span class="s2">               &quot;&quot;&quot;</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">points_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SherdCount&#39;</span><span class="p">,</span> <span class="s1">&#39;tempFixIDs&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">points_df</span> <span class="o">=</span> <span class="n">points_df</span><span class="p">[</span><span class="n">points_df</span><span class="o">.</span><span class="n">DataDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">points_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_points_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_simple">[docs]</a><span class="k">def</span> <span class="nf">load_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with the most typical query</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    points_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all points</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;load_points_simple() is no longer preferred. Use load_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT SurveyPoint.*, Field.FieldNumber, Surveyor.SurveyorName </span>
+<span class="s2">               FROM SurveyPoint </span>
+<span class="s2">               LEFT JOIN Field ON SurveyPoint.FieldId=Field.FieldId</span>
+<span class="s2">               LEFT JOIN Surveyor ON SurveyPoint.SurveyorId=Surveyor.SurveyorId</span>
+<span class="s2">               &quot;&quot;&quot;</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">points_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_points_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_by_year">[docs]</a><span class="k">def</span> <span class="nf">load_points_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with the most typical query for specified year(s)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    years : list</span>
+<span class="sd">        List of desired years; can be strings or integers</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    points_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all points for specified year(s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;load_points_by_year() is no longer preferred. Use load_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">load_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">points_df</span><span class="p">[</span><span class="n">points_df</span><span class="o">.</span><span class="n">DataDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">points_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_artifacts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sections : list of some set of</span>
+<span class="sd">        {&#39;all&#39;, &#39;base&#39;, &#39;metrics&#39;, &#39;classify&#39;, &#39;production&#39;, &#39;tile_brick&#39;, &#39;waretypes&#39;, &#39;vesselparts&#39;, &#39;macro_fabric&#39;}</span>
+<span class="sd">        Sections to include in the output DataFrame. Each section refers to a group of column names.</span>
+<span class="sd">    years : list</span>
+<span class="sd">        List of desired years; can be strings or integers</span>
+<span class="sd">    include_discards : bool</span>
+<span class="sd">        If True, return all records, even artifacts marked as Discarded.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    artifacts_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all artifacts</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;base&#39;</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;classify&#39;</span><span class="p">,</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="s1">&#39;tile_brick&#39;</span><span class="p">,</span> <span class="s1">&#39;waretypes&#39;</span><span class="p">,</span> <span class="s1">&#39;vesselparts&#39;</span><span class="p">,</span> <span class="s1">&#39;macro_fabric&#39;</span><span class="p">]</span>
+
+    <span class="n">base</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SherdId&#39;</span><span class="p">,</span> <span class="s1">&#39;FieldId&#39;</span><span class="p">,</span> <span class="s1">&#39;SurveyorId&#39;</span><span class="p">,</span> <span class="s1">&#39;PointId&#39;</span><span class="p">,</span> <span class="s1">&#39;SherdNum&#39;</span><span class="p">,</span> <span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ChangedDate&#39;</span><span class="p">,</span> <span class="s1">&#39;FieldNumber&#39;</span><span class="p">,</span> <span class="s1">&#39;Northing&#39;</span><span class="p">,</span> <span class="s1">&#39;Easting&#39;</span><span class="p">,</span> <span class="s1">&#39;SurveyorName&#39;</span><span class="p">]</span>
+
+    <span class="n">col_grps</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;metrics&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Width&#39;</span><span class="p">,</span> <span class="s1">&#39;Thickness&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;classify&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MaterialTypeName&#39;</span><span class="p">,</span> <span class="s1">&#39;ManufactureName&#39;</span><span class="p">,</span> <span class="s1">&#39;FabricTypeName&#39;</span><span class="p">,</span> <span class="s1">&#39;Form&#39;</span><span class="p">,</span> <span class="s1">&#39;Note&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;VesselPartOther&#39;</span><span class="p">,</span> <span class="s1">&#39;WareTypeOther&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;production&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chronology&#39;</span><span class="p">,</span> <span class="s1">&#39;CultureOther&#39;</span><span class="p">,</span> <span class="s1">&#39;RegionOther&#39;</span><span class="p">,</span> <span class="s1">&#39;EnteredDate&#39;</span><span class="p">,</span> <span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;LateChrono&#39;</span><span class="p">,</span> <span class="s1">&#39;Catalan&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;tile_brick&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">,</span> <span class="s1">&#39;TileIsStamped&#39;</span><span class="p">,</span> <span class="s1">&#39;TileIsCurved&#39;</span><span class="p">,</span> <span class="s1">&#39;BrickIsStamped&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;macro_fabric&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;SherdCondition&#39;</span><span class="p">,</span> <span class="s1">&#39;SurfaceTexture&#39;</span><span class="p">,</span> <span class="s1">&#39;SurfTextureOther&#39;</span><span class="p">,</span> <span class="s1">&#39;SurfaceCondition&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;SurvCondOther&#39;</span><span class="p">,</span> <span class="s1">&#39;SurfaceTreatExt&#39;</span><span class="p">,</span> <span class="s1">&#39;STEOther&#39;</span><span class="p">,</span> <span class="s1">&#39;SurfaceTreatInt&#39;</span><span class="p">,</span> <span class="s1">&#39;STIOther&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;HardnessSurface&#39;</span><span class="p">,</span> <span class="s1">&#39;HardnessCore&#39;</span><span class="p">,</span> <span class="s1">&#39;FiringCore&#39;</span><span class="p">,</span> <span class="s1">&#39;ColorExt&#39;</span><span class="p">,</span> <span class="s1">&#39;ColorInt&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;ColorCore&#39;</span><span class="p">,</span> <span class="s1">&#39;InclusionOther&#39;</span><span class="p">,</span> <span class="s1">&#39;DomInclusion&#39;</span><span class="p">,</span> <span class="s1">&#39;DomInclusionOther&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;InclusionSorting&#39;</span><span class="p">,</span> <span class="s1">&#39;InclusionShape&#39;</span><span class="p">,</span> <span class="s1">&#39;InclusionDensity&#39;</span><span class="p">,</span> <span class="s1">&#39;InclusionSize&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;InclusionLargestSize&#39;</span><span class="p">,</span> <span class="s1">&#39;InclusionTexture&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, </span>
+<span class="s2">                      Surveyor.SurveyorName, ManufactureMethod.ManufactureName</span>
+<span class="s2">               FROM Sherd</span>
+<span class="s2">               LEFT JOIN Field ON Sherd.FieldId=Field.FieldId</span>
+<span class="s2">               LEFT JOIN FabricType ON Sherd.FabricType=FabricType.FabricTypeId</span>
+<span class="s2">               LEFT JOIN SurveyPoint ON SurveyPoint.SurveyPointId = Sherd.SurveyPointId</span>
+<span class="s2">               LEFT JOIN Surveyor ON SurveyPoint.SurveyorId=Surveyor.SurveyorId</span>
+<span class="s2">               LEFT JOIN ManufactureMethod ON Sherd.ManufactureMethod=ManufactureMethod.ManufactureID</span>
+<span class="s2">               &quot;&quot;&quot;</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">include_discards</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">artifacts_df</span><span class="p">[</span><span class="s1">&#39;FabricTypeName&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Discarded&#39;</span><span class="p">]</span>
+
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">base</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">col_grps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">cols</span> <span class="o">+=</span> <span class="n">col_grps</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;waretypes&#39;</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="n">waretypes</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT swt.SherdId, wt.WareTypeName</span>
+<span class="s2">                                     FROM SherdWareType AS swt</span>
+<span class="s2">                                     LEFT JOIN WareType AS wt ON swt.WareTypeId=wt.WareTypeId</span>
+<span class="s2">                                     LEFT JOIN Sherd ON Sherd.SherdId=swt.SherdId</span>
+<span class="s2">                                     &quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">dummies</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">waretypes</span><span class="p">[</span><span class="s1">&#39;WareTypeName&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>  <span class="c1"># one hot encoding</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;other&#39;</span><span class="p">:</span> <span class="s1">&#39;other_waretype&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">:</span> <span class="s1">&#39;unknown_waretype&#39;</span><span class="p">})</span>
+        <span class="n">waretypes</span> <span class="o">=</span> <span class="n">waretypes</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dummies</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># attach to original</span>
+        <span class="n">waretypes</span> <span class="o">=</span> <span class="n">waretypes</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;SherdId&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># groupby to collapse duplicate SherdIds</span>
+        <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">waretypes</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;SherdId&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># merge with df</span>
+
+    <span class="k">if</span> <span class="s1">&#39;vesselparts&#39;</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="n">vessel_parts</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT svp.SherdId, vp.VesselPartName</span>
+<span class="s2">                                     FROM SherdVesselPart AS svp</span>
+<span class="s2">                                     LEFT JOIN VesselPart AS vp ON svp.VesselPartId=vp.VesselPartId</span>
+<span class="s2">                                     LEFT JOIN Sherd ON Sherd.SherdId=svp.SherdId</span>
+<span class="s2">                                     &quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">dummies</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">vessel_parts</span><span class="p">[</span><span class="s1">&#39;VesselPartName&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;other&#39;</span><span class="p">:</span> <span class="s1">&#39;other_vesselpart&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">:</span> <span class="s1">&#39;unknown_vesselpart&#39;</span><span class="p">})</span>  <span class="c1"># one hot encoding</span>
+        <span class="n">vessel_parts</span> <span class="o">=</span> <span class="n">vessel_parts</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dummies</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># attach to original</span>
+        <span class="n">vessel_parts</span> <span class="o">=</span> <span class="n">vessel_parts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;SherdId&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># groupby to collapse duplicate SherdIds</span>
+        <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">vessel_parts</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;SherdId&#39;</span><span class="p">,</span>
+                                          <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># merge with df</span>
+
+    <span class="k">if</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">artifacts_df</span><span class="o">.</span><span class="n">ChangedDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">artifacts_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_artifacts_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts_simple">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts with the most typical query</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    include_discards : bool</span>
+<span class="sd">        If True, return all records, even artifacts marked as Discarded.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    artifacts_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all artifacts</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;load_artifacts_simple() is no longer preferred. Use load_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, </span>
+<span class="s2">                      Surveyor.SurveyorName </span>
+<span class="s2">               FROM Sherd</span>
+<span class="s2">               LEFT JOIN Field ON Sherd.FieldId=Field.FieldId</span>
+<span class="s2">               LEFT JOIN FabricType ON Sherd.FabricType=FabricType.FabricTypeId</span>
+<span class="s2">               LEFT JOIN SurveyPoint ON SurveyPoint.SurveyPointId = Sherd.SurveyPointId</span>
+<span class="s2">               LEFT JOIN Surveyor ON SurveyPoint.SurveyorId=Surveyor.SurveyorId</span>
+<span class="s2">               LEFT JOIN ManufactureMethod ON Sherd.ManufactureMethod=ManufactureMethod.ManufactureID</span>
+<span class="s2">               &quot;&quot;&quot;</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_discards</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">artifacts_df</span><span class="p">[</span><span class="s1">&#39;FabricTypeName&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Discarded&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">artifacts_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_artifacts_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts_by_year">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts with the most typical query for specified year(s)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    years : list</span>
+<span class="sd">        List of desired years; can be strings or integers</span>
+<span class="sd">    discards : bool</span>
+<span class="sd">        If True, return all records, even artifacts marked as Discarded.    </span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    artifacts_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all artifacts for specified year(s)</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;load_artifacts_by_year() is no longer preferred. Use load_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">load_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="n">discards</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">artifacts_df</span><span class="o">.</span><span class="n">ChangedDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">artifacts_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_productions_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_productions_simple">[docs]</a><span class="k">def</span> <span class="nf">load_productions_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of productions with the most typical query</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prods_df : pandas DataFrame</span>
+<span class="sd">        DataFrame of all productions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT *</span>
+<span class="s2">               FROM FabricType</span>
+<span class="s2">               &quot;&quot;&quot;</span>
+    <span class="n">prods_df</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prods_df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_production_cts_wts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_production_cts_wts">[docs]</a><span class="k">def</span> <span class="nf">load_production_cts_wts</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a DataFrame of all points with columns for counts and weights of all productions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cts_wts : pandas DataFrame</span>
+<span class="sd">        DataFrame of all points with counts and weights for all productions</span>
+<span class="sd">        </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Also pulls in some non-vessel artifact types (e.g., tile, brick, other construction material)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;classify&#39;</span><span class="p">,</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="s1">&#39;tile_brick&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">load_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="c1"># For artifacts without a Production (i.e., tiles, bricks, etc), use their MaterialType as their Production. If</span>
+    <span class="c1"># MaterialType is Tile, use TileType (&#39;Tegula&#39; or &#39;Imbrex&#39;)</span>
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Production&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;FabricTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;FabricTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+                                                                <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;MaterialTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                                                                    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+                                                                    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]))</span>
+
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Production&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Production&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="o">~</span><span class="p">((</span><span class="n">artifacts</span><span class="o">.</span><span class="n">Note</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;signinum&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">artifacts</span><span class="o">.</span><span class="n">Note</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Signinum&#39;</span><span class="p">))),</span>
+        <span class="s1">&#39;Opus signinum&#39;</span><span class="p">)</span>
+
+    <span class="c1"># summarize artifacts by point</span>
+    <span class="n">art_cts</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="s1">&#39;Production&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Production&#39;</span><span class="p">:</span> <span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+    
+    <span class="c1"># merge Production (counts) and Weight (weights) with the points df</span>
+    <span class="c1"># do this in two steps so that we can append the _ct and _wt suffixes to columns</span>
+    <span class="n">cts</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">art_cts</span><span class="p">[</span><span class="s1">&#39;Production&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cts_wts</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cts</span><span class="p">,</span> <span class="n">art_cts</span><span class="p">[</span><span class="s1">&#39;Weight&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;_wt&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cts_wts</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="load_points_times"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_times">[docs]</a><span class="k">def</span> <span class="nf">load_points_times</span><span class="p">(</span><span class="n">warn</span><span class="o">=</span><span class="s1">&#39;enable&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with datetimes cleaned and search times calculated</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    warn : {&#39;enable&#39;, &#39;disable&#39;}</span>
+<span class="sd">        Argument passed to the `calc_search_time()` function specifying whether or to print a generic warning message.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Optional arguments that are passed to get_credentials()</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pts : pandas DataFrame</span>
+<span class="sd">        DataFrame of all points with adjusted datetimes and search times</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">calc_search_time</span><span class="p">(</span><span class="n">clean_datetimes</span><span class="p">(</span><span class="n">load_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span> <span class="n">warn</span><span class="o">=</span><span class="n">warn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pts</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>leiap.time &mdash; LEIA Project Package 0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LEIA Project Package
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db.html">Project database organization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.io.html">leiap.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.checks.html">leiap.checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.time.html">leiap.time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.spatial.html">leiap.spatial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.mapping.html">leiap.mapping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.report.html">leiap.report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.progress.html">leiap.progress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.fieldschool.html">leiap.fieldschool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_autosummary/leiap.constants.html">leiap.constants</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LEIA Project Package</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>leiap.time</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for leiap.time</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions related to survey search time calculations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="clean_datetimes"><a class="viewcode-back" href="../../_autosummary/leiap.time.html#leiap.time.clean_datetimes">[docs]</a><span class="k">def</span> <span class="nf">clean_datetimes</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dt_col</span><span class="o">=</span><span class="s1">&#39;DataDate&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Filter datetimes and correct for timezone issues</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        DataFrame of point observations</span>
+<span class="sd">    dt_col : str</span>
+<span class="sd">        Column name for datetime data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Identical to input DataFrame with an added &#39;dt_adj&#39; column representing datetimes filtered and</span>
+<span class="sd">        correct (see Notes)</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    1. Points collected in 2014 did not have their times recorded (only dates); they are assigned a time of 00:00:00</span>
+<span class="sd">    by the database. In the new `dt_adj` column, they are assigned NaT type. If you want to access just the dates,</span>
+<span class="sd">    you can do so with the original `dt_col` (`DataDate` by default).</span>
+<span class="sd">    2. When points are downloaded from handheld GPS devices, their times are converted to the timezone of the laptop on</span>
+<span class="sd">    which they are downloaded. Before we realized this, a lot of points were uploaded on machines set to U.S. Pacific</span>
+<span class="sd">    Time. As a result, some times need to be adjusted by 9 hours.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dt_adj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;</span> <span class="mi">2014</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">correct_timezone</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dt_col</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="correct_timezone"><a class="viewcode-back" href="../../_autosummary/leiap.time.html#leiap.time.correct_timezone">[docs]</a><span class="k">def</span> <span class="nf">correct_timezone</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dt_col</span><span class="o">=</span><span class="s1">&#39;DataDate&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Account for some timezone issues</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        DataFrame of point observations</span>
+<span class="sd">    dt_col : str</span>
+<span class="sd">        Column name for datetime data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Identical to input DataFrame with datetimes fixed so that they all range from 06:30:00-21:30:00. In reality,</span>
+<span class="sd">        the latest times are approx 15:00:00</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;06:30:00&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">())</span> <span class="o">&amp;</span>
+                                  <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;21:30:00&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">()),</span>
+                                  <span class="n">df</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">+</span><span class="n">_pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="calc_search_time"><a class="viewcode-back" href="../../_autosummary/leiap.time.html#leiap.time.calc_search_time">[docs]</a><span class="k">def</span> <span class="nf">calc_search_time</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dt_col</span><span class="o">=</span><span class="s1">&#39;dt_adj&#39;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="s1">&#39;enable&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate search times in seconds</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame of points</span>
+<span class="sd">        Must have columns &#39;FieldNumber&#39;, &#39;SurveyorName&#39;, &#39;SurveyPointId&#39;</span>
+<span class="sd">    dt_col : str</span>
+<span class="sd">        Column name for datetime data</span>
+<span class="sd">    warn : {&#39;enable&#39;, &#39;disable&#39;}</span>
+<span class="sd">        Specify whether or not you want the generic warning message.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Identical to input DataFrame with added &#39;search_time&#39; and &#39;dist&#39; columns representing search time in seconds,</span>
+<span class="sd">        and distance from previous point in meters</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is a naive calculation that doesn&#39;t discard any times. You will want to filter values further before using in</span>
+<span class="sd">    any interpretively meaningful way.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">math</span>
+    <span class="k">if</span> <span class="n">warn</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">warnings</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;FYI: Search times calculated in a naive way (e.g., including unrealistic values and NaN values).&#39;</span>
+                      <span class="s1">&#39;Consider further filtering before using `search_time` in calculations.&#39;</span><span class="p">)</span>
+    
+    <span class="n">pts_ix</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;FieldNumber&#39;</span><span class="p">,</span> <span class="s1">&#39;SurveyorName&#39;</span><span class="p">,</span> <span class="s1">&#39;SurveyPointId&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>  <span class="c1"># create multi-index df</span>
+    <span class="n">combos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;FieldNumber&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;SurveyorName&#39;</span><span class="p">])))</span>  <span class="c1"># find all unique combos of field and surveyor</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list to store series for each surveyor within each field</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combos</span><span class="p">)):</span>  <span class="c1"># loop through field/surveyor pairs</span>
+        <span class="n">field</span><span class="p">,</span> <span class="n">surveyor</span> <span class="o">=</span> <span class="n">combos</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">combos</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># create new df subset for that field and surveyor and sort by datetime</span>
+        <span class="n">df_fs</span> <span class="o">=</span> <span class="n">pts_ix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">field</span><span class="p">,</span> <span class="n">surveyor</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">dt_col</span><span class="p">)</span>
+        
+        <span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;Easting&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;Easting&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+                                         <span class="p">(</span><span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;Northing&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;Northing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+                                         <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># calculate distance between consecutive pts</span>
+        
+        <span class="n">df_fs</span><span class="p">[</span><span class="s1">&#39;search_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fs</span><span class="p">[</span><span class="n">dt_col</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>  <span class="c1"># calculate differences between consecutive dts</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_fs</span><span class="p">[[</span><span class="s1">&#39;search_time&#39;</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">]])</span>  <span class="c1"># append the small series to the list of series</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># concatenate all of the series into one long one (should be of length == n points)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">)</span>  <span class="c1"># join the series to the original points df</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="filter_times"><a class="viewcode-back" href="../../_autosummary/leiap.time.html#leiap.time.filter_times">[docs]</a><span class="k">def</span> <span class="nf">filter_times</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">t_col</span><span class="o">=</span><span class="s1">&#39;search_time&#39;</span><span class="p">,</span> <span class="n">t_lim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">900</span><span class="p">),</span> <span class="n">dist_col</span><span class="o">=</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="n">dist_lim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Put time and distance restrictions on the time data.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Dataset of points</span>
+<span class="sd">    t_col : str</span>
+<span class="sd">        Name of column with time info</span>
+<span class="sd">    t_lim : tuple</span>
+<span class="sd">        Min and max limits (inclusive) for time</span>
+<span class="sd">    dist_col : str</span>
+<span class="sd">        Name of column with distance info</span>
+<span class="sd">    dist_lim : tuple</span>
+<span class="sd">        Min and max limits (inclusive) for distance</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filtered : pandas DataFrame</span>
+<span class="sd">        A subset of the original DataFrame filtered according to the input parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">t_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())</span> <span class="o">&amp;</span>                             <span class="c1"># times not N/A</span>
+                  <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">t_col</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">t_lim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_lim</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">&amp;</span>         <span class="c1"># time limits</span>
+                  <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">dist_col</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">dist_lim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dist_lim</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1"># distance limits</span>
+                  <span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">t_col</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>             <span class="c1"># sort by time</span>
+    <span class="k">return</span> <span class="n">filtered</span></div>
+
+<span class="c1">#######################################################################################################################</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jacob Deppen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
