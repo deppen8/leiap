@@ -137,7 +137,7 @@ def load_points_simple(**kwargs):
     """
     import warnings
     warnings.warn(
-        """load_points_simple() is no longer preferred. Use load_points() with appropriate parameters instead.""",
+        """get_points_simple() is no longer preferred. Use get_points() with appropriate parameters instead.""",
         DeprecationWarning)
 
     query = """SELECT SurveyPoint.*, Field.FieldNumber, Surveyor.SurveyorName 
@@ -169,7 +169,7 @@ def load_points_by_year(years, **kwargs):
     """
     import warnings
     warnings.warn(
-        """load_points_by_year() is no longer preferred. Use load_points() with appropriate parameters instead.""",
+        """get_points_by_year() is no longer preferred. Use get_points() with appropriate parameters instead.""",
         DeprecationWarning)
 
     points_df = load_points_simple(**kwargs)
@@ -298,7 +298,7 @@ def load_artifacts_simple(include_discards=False, **kwargs):
     """
     import warnings
     warnings.warn(
-        """load_artifacts_simple() is no longer preferred. Use load_artifacts() with appropriate parameters instead.""", DeprecationWarning)
+        """get_artifacts_simple() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""", DeprecationWarning)
     query = """SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, 
                       Surveyor.SurveyorName 
                FROM Sherd
@@ -338,7 +338,7 @@ def load_artifacts_by_year(years, discards=False, **kwargs):
     """
     import warnings
     warnings.warn(
-        """load_artifacts_by_year() is no longer preferred. Use load_artifacts() with appropriate parameters instead.""",
+        """get_artifacts_by_year() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""",
         DeprecationWarning)
     artifacts_df = load_artifacts_simple(include_discards=discards, **kwargs)
     artifacts_df = artifacts_df[artifacts_df.ChangedDate.dt.year.isin(years)]

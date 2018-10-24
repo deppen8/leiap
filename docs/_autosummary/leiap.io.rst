@@ -12,12 +12,12 @@ leiap.io
       get_credentials
       connect2db
       db_query
-      load_points
-      load_points_simple
-      load_points_by_year
-      load_artifacts
-      load_artifacts_by_year
-      load_artifacts_simple
-      load_productions_simple
-      load_production_cts_wts
-      load_points_times
+      get_points
+      get_points_simple
+      get_points_by_year
+      get_artifacts
+      get_artifacts_by_year
+      get_artifacts_simple
+      get_productions_simple
+      get_production_cts_wts
+      get_points_times

@@ -31,12 +31,17 @@ def check_all():
 
 def check_coords_in_municipi():
     """Detect Eastings or Northings that do not lie within Son Servera
+
+    Returns
+    -------
+    bad_coords : pandas DataFrame
+        A DataFrame of coordinates that do not lie within Son Servera
     """   
     # Son Servera municipality min/max coordinates
     min_easting, max_easting = 527509.3825000008, 537483.8490000003
     min_northing, max_northing = 4383439.635000001, 4391457.568000001
     
-    points = load_points()
+    points = get_points()
     bad_coords = points[(points['Easting'] <= min_easting) | (points['Easting'] >= max_easting) |
                         (points['Northing'] <= min_northing) | (points['Northing'] >= max_northing)]
     if bad_coords.shape[0] > 0:
@@ -52,8 +57,13 @@ def check_coords_in_municipi():
 
 def check_handmade():
     """Find any indigenous sherds that are not marked as handmade
+
+    Returns
+    -------
+    flagged : pandas DataFrame
+        A DataFrame of indigenous sherds that are not marked as handmade
     """
-    artifacts = load_artifacts(sections=['classify'])
+    artifacts = get_artifacts(sections=['classify'])
     
     # types that are always handmade (hecho a mano)
     amano_types = ['Bronze Age pottery', 'Talaiotic pottery', 'Post-talaiotic pottery']
@@ -64,7 +74,9 @@ def check_handmade():
     else:
         print('No problems detected with handmade pottery')
     
-    return flagged[['SurveyPointId', 'FabricTypeName', 'ManufactureMethod']]
+    flagged = flagged[['SurveyPointId', 'FabricTypeName', 'ManufactureMethod']]
+
+    return flagged
 
 
 #######################################################################################################################
@@ -86,7 +98,7 @@ def check_measurement(measure, sd):
         Outlier artifacts based on input parameters
     """
     from numpy import abs
-    df = load_artifacts(sections=['metrics'])
+    df = get_artifacts(sections=['metrics'])
     outliers = df[~(abs(df[measure]-df[measure].mean()) <= (sd*df[measure].std())) &
                   ~(df[measure].isna())].sort_values(measure, ascending=False)
     n = outliers.shape[0]

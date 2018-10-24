@@ -10,7 +10,7 @@ import datetime as _datetime
 #######################################################################################################################
 
 
-def measuring_progress(year, measure_col='Weight'):
+def get_measuring_progress(year, measure_col='Weight'):
     """Get a quick estimate of the amount of measuring left to do.
     
     Parameters
@@ -32,7 +32,7 @@ def measuring_progress(year, measure_col='Weight'):
 
     This is very much an imperfect measure, but it helps to give a rough guide to progress.
     """
-    artifacts_df = load_artifacts(sections=['metrics'], years=[year])
+    artifacts_df = get_artifacts(sections=['metrics'], years=[year])
     dt = _datetime.datetime.now()
     done = len(artifacts_df[(artifacts_df[measure_col].notna())])
     not_done = len(artifacts_df[(artifacts_df[measure_col].isna())])
@@ -45,7 +45,7 @@ def measuring_progress(year, measure_col='Weight'):
 #######################################################################################################################
 
 
-def classification_progress(year, bags_col='NumBags'):
+def get_classification_progress(year, bags_col='NumBags'):
     """Get a rough estimate of the number of bags left to classify.
     
     Parameters
@@ -71,8 +71,8 @@ def classification_progress(year, bags_col='NumBags'):
     - Points that should have been changed to -1 bags (i.e., all artifacts discarded during preliminary sort) but were not, for whatever reason, changed.
 
     """
-    points_df = load_points(years=[year])
-    artifacts_df = load_artifacts(years=[year], discards=True)
+    points_df = get_points(years=[year])
+    artifacts_df = get_artifacts(years=[year], discards=True)
     
     pts_w_bags = points_df[points_df[bags_col] > 0].shape[0]
     pts_classified = artifacts_df.groupby(['SurveyPointId']).size().shape[0]

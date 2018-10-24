@@ -9,8 +9,8 @@ leiap.progress
 
    .. autosummary::
    
-      measuring_progress
-      classification_progress
+      get_measuring_progress
+      get_classification_progress
    
 
    
