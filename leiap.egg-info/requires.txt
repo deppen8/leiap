@@ -1,0 +1,7 @@
+pyodbc
+pandas
+numpy
+geopandas
+matplotlib
+bokeh
+altair
