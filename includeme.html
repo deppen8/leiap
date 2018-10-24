@@ -81,7 +81,10 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#querying-the-database">Querying the database</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
@@ -187,6 +190,21 @@ for more info)</li>
 </ol>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install ./dist/leiap-0.1.1.tar.gz
 </pre></div>
+</div>
+<div class="section" id="querying-the-database">
+<h3>Querying the database<a class="headerlink" href="#querying-the-database" title="Permalink to this headline">¶</a></h3>
+<p>In order to query the database, you will need the proper database login
+credentials. The <code class="docutils literal notranslate"><span class="pre">credentials.json</span></code> file in this repo is a dummy
+stand-in file. You will need to update it with the correct values or get
+a copy of the master file. You can then either:</p>
+<ul class="simple">
+<li>Place it in the same directory as the script that runs the query.</li>
+</ul>
+<p>OR</p>
+<ul class="simple">
+<li>Specify its location as a keyword argument in the database query
+functions.</li>
+</ul>
 </div>
 </div>
 <div class="section" id="license">

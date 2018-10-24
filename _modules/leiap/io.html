@@ -244,8 +244,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_points"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points">[docs]</a><span class="k">def</span> <span class="nf">load_points</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points</span>
+<div class="viewcode-block" id="get_points"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_points">[docs]</a><span class="k">def</span> <span class="nf">get_points</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of points</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -276,8 +276,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_points_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_simple">[docs]</a><span class="k">def</span> <span class="nf">load_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with the most typical query</span>
+<div class="viewcode-block" id="get_points_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_points_simple">[docs]</a><span class="k">def</span> <span class="nf">get_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of points with the most typical query</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -291,7 +291,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="sd">&quot;&quot;&quot;load_points_simple() is no longer preferred. Use load_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="sd">&quot;&quot;&quot;get_points_simple() is no longer preferred. Use get_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT SurveyPoint.*, Field.FieldNumber, Surveyor.SurveyorName </span>
@@ -306,8 +306,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_points_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_by_year">[docs]</a><span class="k">def</span> <span class="nf">load_points_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with the most typical query for specified year(s)</span>
+<div class="viewcode-block" id="get_points_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_points_by_year">[docs]</a><span class="k">def</span> <span class="nf">get_points_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of points with the most typical query for specified year(s)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -323,10 +323,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="sd">&quot;&quot;&quot;load_points_by_year() is no longer preferred. Use load_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="sd">&quot;&quot;&quot;get_points_by_year() is no longer preferred. Use get_points() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
-    <span class="n">points_df</span> <span class="o">=</span> <span class="n">load_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">get_points_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">points_df</span> <span class="o">=</span> <span class="n">points_df</span><span class="p">[</span><span class="n">points_df</span><span class="o">.</span><span class="n">DataDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">points_df</span></div>
 
@@ -334,8 +334,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_artifacts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts</span>
+<div class="viewcode-block" id="get_artifacts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_artifacts">[docs]</a><span class="k">def</span> <span class="nf">get_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of artifacts</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -434,8 +434,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_artifacts_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts_simple">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts with the most typical query</span>
+<div class="viewcode-block" id="get_artifacts_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_artifacts_simple">[docs]</a><span class="k">def</span> <span class="nf">get_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of artifacts with the most typical query</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -452,7 +452,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="sd">&quot;&quot;&quot;load_artifacts_simple() is no longer preferred. Use load_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;get_artifacts_simple() is no longer preferred. Use get_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, </span>
 <span class="s2">                      Surveyor.SurveyorName </span>
 <span class="s2">               FROM Sherd</span>
@@ -472,8 +472,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_artifacts_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_artifacts_by_year">[docs]</a><span class="k">def</span> <span class="nf">load_artifacts_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of artifacts with the most typical query for specified year(s)</span>
+<div class="viewcode-block" id="get_artifacts_by_year"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_artifacts_by_year">[docs]</a><span class="k">def</span> <span class="nf">get_artifacts_by_year</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">discards</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of artifacts with the most typical query for specified year(s)</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -492,9 +492,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="sd">&quot;&quot;&quot;load_artifacts_by_year() is no longer preferred. Use load_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="sd">&quot;&quot;&quot;get_artifacts_by_year() is no longer preferred. Use get_artifacts() with appropriate parameters instead.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="ne">DeprecationWarning</span><span class="p">)</span>
-    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">load_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="n">discards</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">get_artifacts_simple</span><span class="p">(</span><span class="n">include_discards</span><span class="o">=</span><span class="n">discards</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="p">[</span><span class="n">artifacts_df</span><span class="o">.</span><span class="n">ChangedDate</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">artifacts_df</span></div>
 
@@ -502,8 +502,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_productions_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_productions_simple">[docs]</a><span class="k">def</span> <span class="nf">load_productions_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of productions with the most typical query</span>
+<div class="viewcode-block" id="get_productions_simple"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_productions_simple">[docs]</a><span class="k">def</span> <span class="nf">get_productions_simple</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of productions with the most typical query</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -525,8 +525,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_production_cts_wts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_production_cts_wts">[docs]</a><span class="k">def</span> <span class="nf">load_production_cts_wts</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create a DataFrame of all points with columns for counts and weights of all productions</span>
+<div class="viewcode-block" id="get_production_cts_wts"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_production_cts_wts">[docs]</a><span class="k">def</span> <span class="nf">get_production_cts_wts</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of all points with columns for counts and weights of all productions</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -543,8 +543,8 @@
 <span class="sd">    Also pulls in some non-vessel artifact types (e.g., tile, brick, other construction material)</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">artifacts</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;classify&#39;</span><span class="p">,</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="s1">&#39;tile_brick&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">load_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">artifacts</span> <span class="o">=</span> <span class="n">get_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;classify&#39;</span><span class="p">,</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="s1">&#39;tile_brick&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">get_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     
     <span class="c1"># For artifacts without a Production (i.e., tiles, bricks, etc), use their MaterialType as their Production. If</span>
     <span class="c1"># MaterialType is Tile, use TileType (&#39;Tegula&#39; or &#39;Imbrex&#39;)</span>
@@ -571,8 +571,8 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="load_points_times"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.load_points_times">[docs]</a><span class="k">def</span> <span class="nf">load_points_times</span><span class="p">(</span><span class="n">warn</span><span class="o">=</span><span class="s1">&#39;enable&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a DataFrame of points with datetimes cleaned and search times calculated</span>
+<div class="viewcode-block" id="get_points_times"><a class="viewcode-back" href="../../_autosummary/leiap.io.html#leiap.io.get_points_times">[docs]</a><span class="k">def</span> <span class="nf">get_points_times</span><span class="p">(</span><span class="n">warn</span><span class="o">=</span><span class="s1">&#39;enable&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a DataFrame of points with datetimes cleaned and search times calculated</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -586,7 +586,7 @@
 <span class="sd">    pts : pandas DataFrame</span>
 <span class="sd">        DataFrame of all points with adjusted datetimes and search times</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pts</span> <span class="o">=</span> <span class="n">calc_search_time</span><span class="p">(</span><span class="n">clean_datetimes</span><span class="p">(</span><span class="n">load_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span> <span class="n">warn</span><span class="o">=</span><span class="n">warn</span><span class="p">)</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">calc_search_time</span><span class="p">(</span><span class="n">clean_datetimes</span><span class="p">(</span><span class="n">get_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span> <span class="n">warn</span><span class="o">=</span><span class="n">warn</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pts</span></div>
 
 

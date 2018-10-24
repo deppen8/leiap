@@ -164,7 +164,7 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="measuring_progress"><a class="viewcode-back" href="../../_autosummary/leiap.progress.html#leiap.progress.measuring_progress">[docs]</a><span class="k">def</span> <span class="nf">measuring_progress</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">measure_col</span><span class="o">=</span><span class="s1">&#39;Weight&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_measuring_progress"><a class="viewcode-back" href="../../_autosummary/leiap.progress.html#leiap.progress.get_measuring_progress">[docs]</a><span class="k">def</span> <span class="nf">get_measuring_progress</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">measure_col</span><span class="o">=</span><span class="s1">&#39;Weight&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a quick estimate of the amount of measuring left to do.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -186,7 +186,7 @@
 
 <span class="sd">    This is very much an imperfect measure, but it helps to give a rough guide to progress.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">get_artifacts</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">_datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
     <span class="n">done</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">artifacts_df</span><span class="p">[(</span><span class="n">artifacts_df</span><span class="p">[</span><span class="n">measure_col</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">())])</span>
     <span class="n">not_done</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">artifacts_df</span><span class="p">[(</span><span class="n">artifacts_df</span><span class="p">[</span><span class="n">measure_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())])</span>
@@ -199,7 +199,7 @@
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="classification_progress"><a class="viewcode-back" href="../../_autosummary/leiap.progress.html#leiap.progress.classification_progress">[docs]</a><span class="k">def</span> <span class="nf">classification_progress</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">bags_col</span><span class="o">=</span><span class="s1">&#39;NumBags&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_classification_progress"><a class="viewcode-back" href="../../_autosummary/leiap.progress.html#leiap.progress.get_classification_progress">[docs]</a><span class="k">def</span> <span class="nf">get_classification_progress</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">bags_col</span><span class="o">=</span><span class="s1">&#39;NumBags&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a rough estimate of the number of bags left to classify.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -225,8 +225,8 @@
 <span class="sd">    - Points that should have been changed to -1 bags (i.e., all artifacts discarded during preliminary sort) but were not, for whatever reason, changed.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">points_df</span> <span class="o">=</span> <span class="n">load_points</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
-    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">load_artifacts</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">],</span> <span class="n">discards</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">points_df</span> <span class="o">=</span> <span class="n">get_points</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+    <span class="n">artifacts_df</span> <span class="o">=</span> <span class="n">get_artifacts</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">],</span> <span class="n">discards</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="n">pts_w_bags</span> <span class="o">=</span> <span class="n">points_df</span><span class="p">[</span><span class="n">points_df</span><span class="p">[</span><span class="n">bags_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">pts_classified</span> <span class="o">=</span> <span class="n">artifacts_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
