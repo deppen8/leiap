@@ -31,6 +31,21 @@ you want to use a conda environment, you would use these steps:
 
    $ pip install ./dist/leiap-0.1.1.tar.gz
 
+Querying the database
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to query the database, you will need the proper database login
+credentials. The ``credentials.json`` file in this repo is a dummy
+stand-in file. You will need to update it with the correct values or get
+a copy of the master file. You can then either:
+
+-  Place it in the same directory as the script that runs the query.
+
+OR
+
+-  Specify its location as a keyword argument in the database query
+   functions.
+
 License
 -------
 
