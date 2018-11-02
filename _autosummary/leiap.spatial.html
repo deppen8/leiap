@@ -176,6 +176,9 @@
 <tr class="row-odd"><td><a class="reference internal" href="#leiap.spatial.read_fields_shp" title="leiap.spatial.read_fields_shp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_fields_shp</span></code></a>(path)</td>
 <td>Load and clean up the Survey_Fields_Master.shp file</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.spatial.convert_coordinates" title="leiap.spatial.convert_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_coordinates</span></code></a>(df[,&nbsp;x_col,&nbsp;y_col,&nbsp;…])</td>
+<td>Transform coordinates from one system to another</td>
+</tr>
 </tbody>
 </table>
 <dl class="function">
@@ -234,6 +237,33 @@
 <dd><p>Load and clean up the Survey_Fields_Master.shp file</p>
 <p class="rubric">Notes</p>
 <p>Not meant to be a generic load function! Designed to work specifically with the file we have been using.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="leiap.spatial.convert_coordinates">
+<code class="descclassname">leiap.spatial.</code><code class="descname">convert_coordinates</code><span class="sig-paren">(</span><em>df</em>, <em>x_col='Easting'</em>, <em>y_col='Northing'</em>, <em>from_epsg='32631'</em>, <em>to_epsg='3857'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/spatial.html#convert_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.spatial.convert_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform coordinates from one system to another</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas DataFrame</em>) – Points or artifacts DataFrame with coordinate columns</li>
+<li><strong>y_col</strong> (<em>x_col</em><em>,</em>) – Columns with x- and y-coordinates</li>
+<li><strong>to_epsg</strong> (<em>from_epsg</em><em>,</em>) – EPSG coordinate system codes for the input and output coordinates</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Original DataFrame with new columns ‘x2’ and ‘y2’</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Default behavior is to convert UTMs from Zone 31N to Web Mercator</p>
 </dd></dl>
 
 </div>

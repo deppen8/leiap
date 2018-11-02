@@ -244,6 +244,45 @@
 
 
 <span class="c1">#######################################################################################################################</span>
+
+
+<div class="viewcode-block" id="convert_coordinates"><a class="viewcode-back" href="../../_autosummary/leiap.spatial.html#leiap.spatial.convert_coordinates">[docs]</a><span class="k">def</span> <span class="nf">convert_coordinates</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x_col</span><span class="o">=</span><span class="s1">&#39;Easting&#39;</span><span class="p">,</span> <span class="n">y_col</span><span class="o">=</span><span class="s1">&#39;Northing&#39;</span><span class="p">,</span> <span class="n">from_epsg</span><span class="o">=</span><span class="s1">&#39;32631&#39;</span><span class="p">,</span> <span class="n">to_epsg</span><span class="o">=</span><span class="s1">&#39;3857&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform coordinates from one system to another</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Points or artifacts DataFrame with coordinate columns</span>
+<span class="sd">    x_col, y_col : str</span>
+<span class="sd">        Columns with x- and y-coordinates</span>
+<span class="sd">    from_epsg, to_epsg : str</span>
+<span class="sd">        EPSG coordinate system codes for the input and output coordinates</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        Original DataFrame with new columns &#39;x2&#39; and &#39;y2&#39;</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Default behavior is to convert UTMs from Zone 31N to Web Mercator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+    <span class="kn">from</span> <span class="nn">shapely.ops</span> <span class="k">import</span> <span class="n">transform</span>
+    <span class="kn">import</span> <span class="nn">pyproj</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;new_coords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">transform</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span>
+                                                              <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;EPSG:</span><span class="si">{from_epsg}</span><span class="s1">&#39;</span><span class="p">),</span>
+                                                              <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;EPSG:</span><span class="si">{to_epsg}</span><span class="s1">&#39;</span><span class="p">)),</span>
+                                                      <span class="n">_Point</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">x_col</span><span class="p">],</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y_col</span><span class="p">])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;new_coords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pt</span><span class="p">:</span> <span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;new_coords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pt</span><span class="p">:</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;new_coords&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="c1">#######################################################################################################################</span>
 </pre></div>
 
            </div>
