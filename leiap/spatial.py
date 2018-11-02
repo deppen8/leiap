@@ -90,3 +90,42 @@ def read_fields_shp(path):
 
 
 #######################################################################################################################
+
+
+def convert_coordinates(df, x_col='Easting', y_col='Northing', from_epsg='32631', to_epsg='3857'):
+    """Transform coordinates from one system to another
+
+    Parameters
+    ----------
+    df : pandas DataFrame
+        Points or artifacts DataFrame with coordinate columns
+    x_col, y_col : str
+        Columns with x- and y-coordinates
+    from_epsg, to_epsg : str
+        EPSG coordinate system codes for the input and output coordinates
+
+    Returns
+    -------
+    df : pandas DataFrame
+        Original DataFrame with new columns 'x2' and 'y2'
+
+    Notes
+    -----
+    Default behavior is to convert UTMs from Zone 31N to Web Mercator
+    """
+    from functools import partial
+    from shapely.ops import transform
+    import pyproj
+
+    df['new_coords'] = df.apply(lambda row: transform(partial(pyproj.transform,
+                                                              pyproj.Proj(init=f'EPSG:{from_epsg}'),
+                                                              pyproj.Proj(init=f'EPSG:{to_epsg}')),
+                                                      _Point(row.loc[x_col], row.loc[y_col])), axis=1)
+    df['x2'] = df['new_coords'].apply(lambda pt: pt.x)
+    df['y2'] = df['new_coords'].apply(lambda pt: pt.y)
+    df.drop(columns=['new_coords'], inplace=True)
+
+    return df
+
+
+#######################################################################################################################
