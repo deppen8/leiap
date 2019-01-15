@@ -179,6 +179,24 @@
 <tr class="row-even"><td><a class="reference internal" href="#leiap.report.pos_points_per_group" title="leiap.report.pos_points_per_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pos_points_per_group</span></code></a>(artifacts,&nbsp;grouper_col)</td>
 <td>Count the number of points with artifacts in the given group</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.group_artifacts" title="leiap.report.group_artifacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_artifacts</span></code></a>(artifact_data[,&nbsp;col])</td>
+<td>Create pandas <cite>GroupBy</cite> object of artifacts</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.prep_report_data" title="leiap.report.prep_report_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prep_report_data</span></code></a>(group)</td>
+<td>Calculate counts and percentages for each production in a group (usually a <cite>geo_field</cite>)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.time_span_chart" title="leiap.report.time_span_chart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_span_chart</span></code></a>(data)</td>
+<td>Create a chart showing all productions, their counts, their percentages, and their time spans</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.write_excel_table" title="leiap.report.write_excel_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_excel_table</span></code></a>(unit,&nbsp;data,&nbsp;writer)</td>
+<td>Format data and add as worksheet to Excel output</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.make_report_tables" title="leiap.report.make_report_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_tables</span></code></a>(groups,&nbsp;output_folder[,&nbsp;…])</td>
+<td>Create and save Excel file with a Sheet for each group in <cite>groups</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.make_report_span_charts" title="leiap.report.make_report_span_charts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_span_charts</span></code></a>(groups,&nbsp;output_folder)</td>
+<td>Create and save production span charts</td>
+</tr>
 </tbody>
 </table>
 <dl class="function">
