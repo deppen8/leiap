@@ -3,12 +3,11 @@ leiap.report
 
 .. automodule:: leiap.report
 
-   
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       fields_summary_table
       points_per_group
       artifacts_per_group
@@ -20,12 +19,3 @@ leiap.report
       make_report_tables
       make_report_span_charts
 
-   
-
-   
-   
-   
-
-   
-   
-   

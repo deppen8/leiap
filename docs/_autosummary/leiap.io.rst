@@ -3,12 +3,11 @@ leiap.io
 
 .. automodule:: leiap.io
 
-   
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       get_credentials
       connect2db
       db_query
