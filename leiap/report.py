@@ -231,7 +231,7 @@ def group_artifacts(artifact_data, col='geo_field'):
     Parameters
     ----------
     artifact_data : pandas DataFrame
-        DataFrame of artifacts with columns `'geo_field'`,`'Catalan'`, `'EarlyChrono'`, `'LateChrono'`
+        DataFrame of artifacts with columns `'Catalan'`, `'EarlyChrono'`, `'LateChrono'`
     col : str, optional
         Column to use for grouping (the default is 'geo_field')
     
@@ -241,20 +241,22 @@ def group_artifacts(artifact_data, col='geo_field'):
         `GroupBy` object that can be iterated over
     """
 
-    data_sub = artifact_data.loc[:, ['geo_field','Catalan', 'EarlyChrono', 'LateChrono']]
+    data_sub = artifact_data.loc[:, [col,'Catalan', 'EarlyChrono', 'LateChrono']]
     return data_sub.groupby([col])
 
 
 #######################################################################################################################
 
 
-def prep_report_data(group):
+def prep_report_data(group, col='geo_field'):
     """Calculate counts and percentages for each production in a group (usually a `geo_field`)
     
     Parameters
     ----------
     group : pandas DataFrame
-        Data from a single group (usually a `geo_field`)
+        Data from a single group (usually a `'geo_field'`)
+    col : str
+        Name of column that contains group info (the default is 'geo_field')
     
     Returns
     -------
@@ -262,7 +264,7 @@ def prep_report_data(group):
         Same as input DataFrame with new `count` and `pct` columns calculated
     """
 
-    data_group = group.groupby(['Catalan', 'EarlyChrono', 'LateChrono']).count().reset_index().rename(columns={'geo_field':'count'})
+    data_group = group.groupby(['Catalan', 'EarlyChrono', 'LateChrono']).count().reset_index().rename(columns={col:'count'})
     data_group['pct'] = (data_group['count'] / data_group['count'].sum() *100).round(decimals=2)
     
     return data_group
@@ -347,7 +349,7 @@ def time_span_chart(data):
 
     # time period labels
     # pos = abs(start-val)/float(abs(end-start))
-    TLABEL_V = 1.05; TLABEL_ANG = 90
+    TLABEL_V = 1.01; TLABEL_ANG = 90
     PERIOD_LABELS = {'Navetiforme':[abs(START-(-1225))/float(abs(END-START)), TLABEL_V, TLABEL_ANG],
                     'Talaiòtic':[abs(START-(-700))/float(abs(END-START)), TLABEL_V, TLABEL_ANG],
                     'Posttalaiòtic':[abs(START-(-336.5))/float(abs(END-START)), TLABEL_V, TLABEL_ANG],
@@ -367,8 +369,8 @@ def time_span_chart(data):
     height = HEIGHT_UNIT*(data.shape[0]+1)+T+B
     fig = plt.figure(figsize=(11, height))
     ax = fig.add_subplot(111)
-    ax.set_ylim(0, data.shape[0]+1.0)
-    fig.subplots_adjust(bottom=B/height, top=1-T/height, left=0.3, right=1.0)
+    ax.set_ylim(0, data.shape[0]+0.5)
+    fig.subplots_adjust(bottom=B/height, top=1-T/height, left=0.4, right=0.95)
 
     ax.add_collection(lc2)
     ax.add_collection(lc)
@@ -454,13 +456,15 @@ def write_excel_table(unit, data, writer):
 #######################################################################################################################
 
 
-def make_report_tables(groups, output_folder, fname='field_tables.xlsx'):
+def make_report_tables(groups, group_col, output_folder, fname='field_tables.xlsx'):
     """Create and save Excel file with a Sheet for each group in `groups`
     
     Parameters
     ----------
     groups : pandas `GroupBy`
         `GroupBy` object like those returned by `group_artifacts()`
+    group_col : str
+        Name of column that contains group info
     output_folder : str
         Folder to save the final Excel
     fname : str, optional
@@ -473,8 +477,7 @@ def make_report_tables(groups, output_folder, fname='field_tables.xlsx'):
 
     writer = _pd.ExcelWriter(f'{output_folder}{fname}', engine='xlsxwriter')
     for unit, data in groups:
-        print(type(data))
-        d = prep_report_data(data)
+        d = prep_report_data(data, col=group_col)
         write_excel_table(unit, d, writer)
    
     writer.save()
@@ -484,13 +487,15 @@ def make_report_tables(groups, output_folder, fname='field_tables.xlsx'):
 #######################################################################################################################
 
 
-def make_report_span_charts(groups, output_folder, file_prefix=''):
+def make_report_span_charts(groups, group_col, output_folder, file_prefix=''):
     """Create and save production span charts
     
     Parameters
     ----------
     groups : pandas `GroupBy`
         `GroupBy` object like those returned by `group_artifacts()`
+    group_col : str
+        Name of column that contains group info
     output_folder : str
         Folder to save the final image
     file_prefix : str, optional
@@ -503,9 +508,10 @@ def make_report_span_charts(groups, output_folder, file_prefix=''):
 
     import matplotlib.pyplot as plt
     for unit, data in groups:
-        d = prep_report_data(data)
+        d = prep_report_data(data, col=group_col)
         time_span_chart(d)
         plt.savefig(f'{output_folder}{file_prefix}{unit}.png', dpi=300)
+        print(f'{file_prefix}{unit}.png saved')
     
     plt.close('all')
-    print(f'Image file(s) saved to {output_folder}')
+    print(f'{len(groups)} image file(s) saved to {output_folder}')
