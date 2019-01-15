@@ -182,7 +182,7 @@
 <tr class="row-odd"><td><a class="reference internal" href="#leiap.report.group_artifacts" title="leiap.report.group_artifacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_artifacts</span></code></a>(artifact_data[,&nbsp;col])</td>
 <td>Create pandas <cite>GroupBy</cite> object of artifacts</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#leiap.report.prep_report_data" title="leiap.report.prep_report_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prep_report_data</span></code></a>(group)</td>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.prep_report_data" title="leiap.report.prep_report_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prep_report_data</span></code></a>(group[,&nbsp;col])</td>
 <td>Calculate counts and percentages for each production in a group (usually a <cite>geo_field</cite>)</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#leiap.report.time_span_chart" title="leiap.report.time_span_chart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_span_chart</span></code></a>(data)</td>
@@ -191,10 +191,10 @@
 <tr class="row-even"><td><a class="reference internal" href="#leiap.report.write_excel_table" title="leiap.report.write_excel_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_excel_table</span></code></a>(unit,&nbsp;data,&nbsp;writer)</td>
 <td>Format data and add as worksheet to Excel output</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.make_report_tables" title="leiap.report.make_report_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_tables</span></code></a>(groups,&nbsp;output_folder[,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#leiap.report.make_report_tables" title="leiap.report.make_report_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_tables</span></code></a>(groups,&nbsp;group_col,&nbsp;…[,&nbsp;…])</td>
 <td>Create and save Excel file with a Sheet for each group in <cite>groups</cite></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#leiap.report.make_report_span_charts" title="leiap.report.make_report_span_charts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_span_charts</span></code></a>(groups,&nbsp;output_folder)</td>
+<tr class="row-even"><td><a class="reference internal" href="#leiap.report.make_report_span_charts" title="leiap.report.make_report_span_charts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_report_span_charts</span></code></a>(groups,&nbsp;group_col,&nbsp;…)</td>
 <td>Create and save production span charts</td>
 </tr>
 </tbody>
@@ -322,7 +322,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>artifact_data</strong> (<em>pandas DataFrame</em>) – DataFrame of artifacts with columns <cite>‘geo_field’</cite>,`’Catalan’<cite>, `’EarlyChrono’</cite>, <cite>‘LateChrono’</cite></li>
+<li><strong>artifact_data</strong> (<em>pandas DataFrame</em>) – DataFrame of artifacts with columns <cite>‘Catalan’</cite>, <cite>‘EarlyChrono’</cite>, <cite>‘LateChrono’</cite></li>
 <li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Column to use for grouping (the default is ‘geo_field’)</li>
 </ul>
 </td>
@@ -339,17 +339,23 @@
 
 <dl class="function">
 <dt id="leiap.report.prep_report_data">
-<code class="descclassname">leiap.report.</code><code class="descname">prep_report_data</code><span class="sig-paren">(</span><em>group</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#prep_report_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.prep_report_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">leiap.report.</code><code class="descname">prep_report_data</code><span class="sig-paren">(</span><em>group</em>, <em>col='geo_field'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#prep_report_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.prep_report_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate counts and percentages for each production in a group (usually a <cite>geo_field</cite>)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>group</strong> (<em>pandas DataFrame</em>) – Data from a single group (usually a <cite>geo_field</cite>)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>group</strong> (<em>pandas DataFrame</em>) – Data from a single group (usually a <cite>‘geo_field’</cite>)</li>
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of column that contains group info (the default is ‘geo_field’)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Same as input DataFrame with new <cite>count</cite> and <cite>pct</cite> columns calculated</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Same as input DataFrame with new <cite>count</cite> and <cite>pct</cite> columns calculated</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">pandas DataFrame</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas DataFrame</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -400,7 +406,7 @@
 
 <dl class="function">
 <dt id="leiap.report.make_report_tables">
-<code class="descclassname">leiap.report.</code><code class="descname">make_report_tables</code><span class="sig-paren">(</span><em>groups</em>, <em>output_folder</em>, <em>fname='field_tables.xlsx'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#make_report_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.make_report_tables" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">leiap.report.</code><code class="descname">make_report_tables</code><span class="sig-paren">(</span><em>groups</em>, <em>group_col</em>, <em>output_folder</em>, <em>fname='field_tables.xlsx'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#make_report_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.make_report_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and save Excel file with a Sheet for each group in <cite>groups</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -408,6 +414,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>groups</strong> (pandas <cite>GroupBy</cite>) – <cite>GroupBy</cite> object like those returned by <cite>group_artifacts()</cite></li>
+<li><strong>group_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of column that contains group info</li>
 <li><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder to save the final Excel</li>
 <li><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name of the Excel file (the default is ‘field_tables.xlsx’)</li>
 </ul>
@@ -425,7 +432,7 @@
 
 <dl class="function">
 <dt id="leiap.report.make_report_span_charts">
-<code class="descclassname">leiap.report.</code><code class="descname">make_report_span_charts</code><span class="sig-paren">(</span><em>groups</em>, <em>output_folder</em>, <em>file_prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#make_report_span_charts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.make_report_span_charts" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">leiap.report.</code><code class="descname">make_report_span_charts</code><span class="sig-paren">(</span><em>groups</em>, <em>group_col</em>, <em>output_folder</em>, <em>file_prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/leiap/report.html#make_report_span_charts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#leiap.report.make_report_span_charts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and save production span charts</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -433,6 +440,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>groups</strong> (pandas <cite>GroupBy</cite>) – <cite>GroupBy</cite> object like those returned by <cite>group_artifacts()</cite></li>
+<li><strong>group_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of column that contains group info</li>
 <li><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder to save the final image</li>
 <li><strong>file_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Extra text to add to the beginning of the file name (the default is an empty string <cite>‘’</cite>, which adds no text). All file names will end with the <cite>unit</cite> from <cite>groups</cite> (e.g., the field number)</li>
 </ul>
