@@ -337,8 +337,8 @@ def time_span_chart(data):
     
     
     # units for plot creation; t='top', b='bottom'
-    HEIGHT_UNIT = 0.25
-    T = 1.5; B = 1.0  #inch
+    HEIGHT_UNIT = 0.15
+    T = 1.0; B = 0.7  #inch
 
     # x-ticks
     INTERVAL = 400 # x-axis tick interval
@@ -367,10 +367,10 @@ def time_span_chart(data):
     sns.set_context("notebook")
 
     height = HEIGHT_UNIT*(data.shape[0]+1)+T+B
-    fig = plt.figure(figsize=(11, height))
+    fig = plt.figure(figsize=(6.5, height))
     ax = fig.add_subplot(111)
     ax.set_ylim(0, data.shape[0]+0.5)
-    fig.subplots_adjust(bottom=B/height, top=1-T/height, left=0.4, right=0.95)
+    fig.subplots_adjust(bottom=B/height, top=1-T/height, left=0.45, right=0.95)
 
     ax.add_collection(lc2)
     ax.add_collection(lc)
@@ -378,12 +378,13 @@ def time_span_chart(data):
     ax.set_xlim(left=START, right=END)
     ax.set_xticks(xticks)
     ax.xaxis.set_ticks_position('bottom')
+    ax.tick_params(axis='x', labelsize=8)
 
     sns.despine(left=True)
 
     ax.set_yticks(data['order_y'])
     ax.set(yticklabels=data['ylabel'])
-    ax.tick_params(axis='y', length=0)
+    ax.tick_params(axis='y', length=0, labelsize=8)
 
     # place time period vertical lines from list of x values
     for vline in VERT_LINES:
@@ -391,14 +392,14 @@ def time_span_chart(data):
 
     # place time period labels
     for period, val in PERIOD_LABELS.items():
-        ax.text(x=val[0], y=val[1], s=period, color='gray', fontsize=10, horizontalalignment='center', verticalalignment='bottom',
+        ax.text(x=val[0], y=val[1], s=period, color='gray', fontsize=8, horizontalalignment='center', verticalalignment='bottom',
                rotation=val[2], transform=ax.transAxes)
 
     # legend
     proxies = [make_proxy(item, lc, linewidth=item) for item in LW_LABELS]
-    leg = ax.legend(proxies, ['0-10%', '10-25%', '25-50%', '50-75%', '75-90%', '90-100%'], bbox_to_anchor=(0.2, 0.0), 
+    leg = ax.legend(proxies, ['0-10%', '10-25%', '25-50%', '50-75%', '75-90%', '90-100%'], bbox_to_anchor=(0.05, 0.0), 
                     bbox_transform=fig.transFigure, loc='lower left', ncol=6, labelspacing=3.0, handlelength=4.0, handletextpad=0.5, markerfirst=False, 
-                    columnspacing=1.0, frameon=False)
+                    columnspacing=0.5, frameon=False, fontsize=8)
 
     for txt in leg.get_texts():
         txt.set_ha("left") # horizontal alignment of text item
