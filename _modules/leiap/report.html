@@ -168,7 +168,7 @@
 <div class="viewcode-block" id="fields_summary_table"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.fields_summary_table">[docs]</a><span class="k">def</span> <span class="nf">fields_summary_table</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">artifacts</span><span class="p">,</span> <span class="n">fid_col</span><span class="o">=</span><span class="s1">&#39;geo_field&#39;</span><span class="p">,</span>
                          <span class="n">save_excel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">excel_file</span><span class="o">=</span><span class="s1">&#39;field_counts.xlsx&#39;</span><span class="p">,</span> <span class="n">excel_sheet</span><span class="o">=</span><span class="s1">&#39;field_data&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create table (in Spanish) with basic stats by field</span>
-<span class="sd">        </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    points : DataFrame</span>
@@ -183,16 +183,16 @@
 <span class="sd">        Filename for Excel</span>
 <span class="sd">    excel_sheet : str, optional</span>
 <span class="sd">        Sheet name for Excel</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fields_data : DataFrame</span>
 <span class="sd">        DataFrame version of the created table</span>
-<span class="sd">        </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The table is in the form:</span>
-<span class="sd">    </span>
+
 <span class="sd">    | Polígono | Parcela | Subparcela |   Id   | Núm. Pts. | Núm. Frags. | Pos. Pts. |</span>
 <span class="sd">    | -------- | ------- | ---------- | ------ | --------- | ----------- | --------- |</span>
 <span class="sd">    |    03    |   027   |      0     | 030270 |    351    |     39      |     26    |</span>
@@ -203,10 +203,12 @@
     <span class="n">fields</span> <span class="o">=</span> <span class="n">points_per_group</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">)</span>
 
     <span class="c1"># count number of artifacts per field</span>
-    <span class="n">artifact_cts</span> <span class="o">=</span> <span class="n">artifacts_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">)</span>
+    <span class="n">artifact_cts</span> <span class="o">=</span> <span class="n">artifacts_per_group</span><span class="p">(</span>
+        <span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">)</span>
 
     <span class="c1"># count number of points with artifacts per field</span>
-    <span class="n">pos_pts</span> <span class="o">=</span> <span class="n">pos_points_per_group</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">)</span>
+    <span class="n">pos_pts</span> <span class="o">=</span> <span class="n">pos_points_per_group</span><span class="p">(</span>
+        <span class="n">artifacts</span><span class="p">,</span> <span class="n">grouper_col</span><span class="o">=</span><span class="n">fid_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="o">=</span><span class="s1">&#39;SurveyPointId&#39;</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">)</span>
 
     <span class="c1"># concatenate the three dataframes created above with an outer join</span>
     <span class="n">fields_data</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">fields</span><span class="p">,</span> <span class="n">artifact_cts</span><span class="p">,</span> <span class="n">pos_pts</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -216,19 +218,20 @@
     <span class="c1"># set counts columns to proper integer datatypes</span>
     <span class="n">fields_data</span><span class="p">[[</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span>
         <span class="p">[</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    
+
     <span class="c1"># split up the `Id` column into various components</span>
     <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Polígono&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Parcela&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
     <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Subparcela&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
 
     <span class="c1"># reorder columns</span>
-    <span class="n">fields_data</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[[</span><span class="s1">&#39;Polígono&#39;</span><span class="p">,</span> <span class="s1">&#39;Parcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Subparcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span>
-    
+    <span class="n">fields_data</span> <span class="o">=</span> <span class="n">fields_data</span><span class="p">[[</span>
+        <span class="s1">&#39;Polígono&#39;</span><span class="p">,</span> <span class="s1">&#39;Parcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Subparcela&#39;</span><span class="p">,</span> <span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">,</span> <span class="s1">&#39;Núm. Frags.&#39;</span><span class="p">,</span> <span class="s1">&#39;Pos. Pts.&#39;</span><span class="p">]]</span>
+
     <span class="k">if</span> <span class="n">save_excel</span><span class="p">:</span>
         <span class="c1"># save to Excel sheet</span>
         <span class="n">fields_data</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">excel_file</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="n">excel_sheet</span><span class="p">)</span>
-        
+
     <span class="k">return</span> <span class="n">fields_data</span></div>
 
 
@@ -237,7 +240,7 @@
 
 <div class="viewcode-block" id="points_per_group"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.points_per_group">[docs]</a><span class="k">def</span> <span class="nf">points_per_group</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">grouper_col</span><span class="p">,</span> <span class="n">ct_col</span><span class="o">=</span><span class="s1">&#39;Núm. Pts.&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Count the points in the given group</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    points : pandas DataFrame</span>
@@ -246,13 +249,14 @@
 <span class="sd">        Column in `points` that you want to use to group, usually &#39;geo_field&#39; or similar</span>
 <span class="sd">    ct_col : str, optional</span>
 <span class="sd">        Name to give the new column</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pandas DataFrame</span>
 <span class="sd">        Points grouped and counted according to the grouper_col    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
@@ -277,7 +281,8 @@
 <span class="sd">    df : pandas DataFrame</span>
 <span class="sd">        Artifacts grouped and counted according to the grouper_col</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 <span class="c1">#######################################################################################################################</span>
@@ -302,139 +307,23 @@
 <span class="sd">    df : pandas DataFrame</span>
 <span class="sd">        Number of points with artifacts grouped and counted according to the grouper_col</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">grouper_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">grouper_col</span><span class="p">,</span> <span class="n">pt_id_col</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">(</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">ct_col</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">grouper_col</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
-
-<span class="c1">#######################################################################################################################</span>
-
-
-<span class="c1"># def time_span_chart(artifacts, prod_col, start=&#39;EarlyChrono&#39;, end=&#39;LateChrono&#39;, out_file=&#39;time_span_chart.png&#39;):</span>
-<span class="c1">#     &quot;&quot;&quot;Make time span chart for productions</span>
-<span class="c1">#</span>
-<span class="c1">#     Notes</span>
-<span class="c1">#     -----</span>
-<span class="c1">#     1. Proportion groups not even</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     _alt.data_transformers.enable(&#39;json&#39;)</span>
-<span class="c1">#</span>
-<span class="c1">#     # work with smaller subset of data</span>
-<span class="c1">#     df = artifacts[[&#39;EarlyChrono&#39;, &#39;LateChrono&#39;, &#39;Catalan&#39;]][~artifacts[&#39;EarlyChrono&#39;].isnull()]</span>
-<span class="c1">#</span>
-<span class="c1">#     prods = df.iloc[0:5].groupby([&#39;Catalan&#39;, &#39;EarlyChrono&#39;, &#39;LateChrono&#39;]</span>
-<span class="c1">#                                 ).size().reset_index().rename(columns={0:&#39;count&#39;})  # frequency counts</span>
-<span class="c1">#     prods[&#39;freq&#39;] = 100*prods[&#39;count&#39;] / prods[&#39;count&#39;].sum()  # proportions</span>
-<span class="c1">#</span>
-<span class="c1">#     conditions = [                                # condition used to group proportions</span>
-<span class="c1">#         prods[&#39;freq&#39;]&lt;=10,</span>
-<span class="c1">#         (prods[&#39;freq&#39;]&gt;10) &amp; (prods[&#39;freq&#39;]&lt;=25),</span>
-<span class="c1">#         (prods[&#39;freq&#39;]&gt;25) &amp; (prods[&#39;freq&#39;]&lt;=50),</span>
-<span class="c1">#         (prods[&#39;freq&#39;]&gt;50) &amp; (prods[&#39;freq&#39;]&lt;=75),</span>
-<span class="c1">#         (prods[&#39;freq&#39;]&gt;75) &amp; (prods[&#39;freq&#39;]&lt;=90),</span>
-<span class="c1">#         (prods[&#39;freq&#39;]&gt;90) &amp; (prods[&#39;freq&#39;]&lt;=100)</span>
-<span class="c1">#     ]</span>
-<span class="c1">#</span>
-<span class="c1">#     groups = [&#39;&lt;10%&#39;, &#39;10-25%&#39;, &#39;25-50%&#39;, &#39;50-75%&#39;, &#39;75-90%&#39;, &#39;&gt;90%&#39;]  # group names</span>
-<span class="c1">#     prods[&#39;group&#39;] = _np.select(conditions, groups)  # apply conditions</span>
-<span class="c1">#</span>
-<span class="c1">#     periods = _pd.DataFrame({&#39;name&#39;:[&#39;Navetiforme&#39;,&#39;Talaiòtic&#39;,&#39;Postalaiòtic&#39;,&#39;Romana&#39;,&#39;Vàndala&#39;,&#39;Bizantina&#39;,</span>
-<span class="c1">#                                      &#39;Àndalusina&#39;,&#39;Medieval Cristiana&#39;,&#39;Moderna&#39;,&#39;Contemporània&#39;],</span>
-<span class="c1">#                             &#39;end&#39;:[-850, -550, -123, 455, 533, 902, 1229, 1492, 1789, 1900],</span>
-<span class="c1">#                             &#39;label_loc&#39;:[-1325.0, -700.0, -336.5, 166.0, 494.0, 717.5, 1065.5, 1360.5, 1640.5, 1844.5]</span>
-<span class="c1">#</span>
-<span class="c1">#                            })</span>
-<span class="c1">#</span>
-<span class="c1">#     chart = _alt.Chart(prods).mark_bar().encode(       # make chart with altair</span>
-<span class="c1">#         x=_alt.X(&#39;EarlyChrono:Q&#39;,</span>
-<span class="c1">#                 axis=_alt.Axis(title=&#39;Anys&#39;, grid=False)),</span>
-<span class="c1">#         x2=_alt.X(&#39;LateChrono:Q&#39;),</span>
-<span class="c1">#         y=_alt.Y(&#39;Catalan:N&#39;,</span>
-<span class="c1">#                 sort=_alt.SortField(field=&#39;EarlyChrono&#39;, op=&#39;mean&#39;, order=&#39;ascending&#39;),</span>
-<span class="c1">#                 axis=_alt.Axis(title=&#39;Producció&#39;),</span>
-<span class="c1">#                 scale=_alt.Scale(type=&#39;point&#39;)</span>
-<span class="c1">#                ),</span>
-<span class="c1"># #         size=&#39;freq:Q&#39;,</span>
-<span class="c1">#         size=_alt.Size(&#39;group:N&#39;, scale=_alt.Scale(domain=groups,</span>
-<span class="c1">#                                                  range=[10,30,50,70,90,110]</span>
-<span class="c1">#                                                 )),</span>
-<span class="c1">#         color=_alt.Color(&#39;group:N&#39;,</span>
-<span class="c1">#             legend=_alt.Legend(title=&#39;Proporció&#39;),</span>
-<span class="c1">#             scale=_alt.Scale(</span>
-<span class="c1">#                 domain=groups,</span>
-<span class="c1">#                 range=[&#39;#f7f7f7&#39;,&#39;#d9d9d9&#39;,&#39;#bdbdbd&#39;,&#39;#969696&#39;,&#39;#636363&#39;,&#39;#252525&#39;]))  # gradient of grays to black</span>
-<span class="c1">#     )</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#     rules = _alt.Chart(periods).mark_rule(color=&#39;#d9d9d9&#39;, opacity=0.5, strokeDash=[5,10]).encode(</span>
-<span class="c1">#         x=&#39;end&#39;,</span>
-<span class="c1">#     )</span>
-<span class="c1">#</span>
-<span class="c1">#     rule_labels = _alt.Chart(periods).mark_text(align=&#39;center&#39;,baseline=&#39;middle&#39;, angle=270,color=&#39;#bdbdbd&#39;).encode(</span>
-<span class="c1">#         text=&#39;name&#39;,</span>
-<span class="c1">#         x=&#39;label_loc&#39;</span>
-<span class="c1">#     )</span>
-<span class="c1">#</span>
-<span class="c1">#     return chart + rules + rule_labels</span>
-<span class="c1">#</span>
-<span class="c1"># #######################################################################################################################</span>
-
-
-<div class="viewcode-block" id="group_artifacts"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.group_artifacts">[docs]</a><span class="k">def</span> <span class="nf">group_artifacts</span><span class="p">(</span><span class="n">artifact_data</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;geo_field&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create pandas `GroupBy` object of artifacts</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    artifact_data : pandas DataFrame</span>
-<span class="sd">        DataFrame of artifacts with columns `&#39;Catalan&#39;`, `&#39;EarlyChrono&#39;`, `&#39;LateChrono&#39;`</span>
-<span class="sd">    col : str, optional</span>
-<span class="sd">        Column to use for grouping (the default is &#39;geo_field&#39;)</span>
-<span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    pandas `GroupBy`</span>
-<span class="sd">        `GroupBy` object that can be iterated over</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">data_sub</span> <span class="o">=</span> <span class="n">artifact_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">col</span><span class="p">,</span><span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span> <span class="s1">&#39;LateChrono&#39;</span><span class="p">]]</span>
-    <span class="k">return</span> <span class="n">data_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">col</span><span class="p">])</span></div>
-
-
-<span class="c1">#######################################################################################################################</span>
-
-
-<div class="viewcode-block" id="prep_report_data"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.prep_report_data">[docs]</a><span class="k">def</span> <span class="nf">prep_report_data</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;geo_field&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate counts and percentages for each production in a group (usually a `geo_field`)</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    group : pandas DataFrame</span>
-<span class="sd">        Data from a single group (usually a `&#39;geo_field&#39;`)</span>
-<span class="sd">    col : str</span>
-<span class="sd">        Name of column that contains group info (the default is &#39;geo_field&#39;)</span>
-<span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    pandas DataFrame</span>
-<span class="sd">        Same as input DataFrame with new `count` and `pct` columns calculated</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">data_group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span> <span class="s1">&#39;LateChrono&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span><span class="s1">&#39;count&#39;</span><span class="p">})</span>
-    <span class="n">data_group</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">data_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">data_group</span></div>
-
 
 <span class="c1">#######################################################################################################################</span>
 
 
 <div class="viewcode-block" id="time_span_chart"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.time_span_chart">[docs]</a><span class="k">def</span> <span class="nf">time_span_chart</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a chart showing all productions, their counts, their percentages, and their time spans</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : pandas DataFrame</span>
 <span class="sd">        Data containing columns `[&#39;Catalan&#39;, &#39;EarlyChrono&#39;, &#39;LateChrono&#39;, &#39;count&#39;, &#39;pct&#39;]`</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fig: matplotlib Figure</span>
@@ -444,7 +333,7 @@
     <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">collections</span> <span class="k">as</span> <span class="n">mc</span>
     <span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="k">import</span> <span class="n">Line2D</span>
     <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-    
+
     <span class="k">def</span> <span class="nf">make_proxy</span><span class="p">(</span><span class="n">zvalue</span><span class="p">,</span> <span class="n">scalar_mappable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Helper function for creating the legend</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -453,7 +342,7 @@
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">order_y</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
-    
+
     <span class="c1"># create tuples of the form (x_start, order_y) and (x_end, order_y)] for each production</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;start_pt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;EarlyChrono&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;order_y&#39;</span><span class="p">]))</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;end_pt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;LateChrono&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;order_y&#39;</span><span class="p">]))</span>
@@ -462,69 +351,71 @@
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ylabel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
     <span class="c1"># make list of lists of coordinates</span>
-    <span class="n">field_lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;start_pt&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;end_pt&#39;</span><span class="p">])]</span>    
+    <span class="n">field_lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;start_pt&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;end_pt&#39;</span><span class="p">])]</span>
 
     <span class="c1"># items needed for legend construction</span>
-    <span class="n">LW_BINS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">100</span><span class="p">]</span> <span class="c1"># bins for line width</span>
-    <span class="n">LW_LABELS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">]</span> <span class="c1"># line widths</span>
-    
+    <span class="n">LW_BINS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>  <span class="c1"># bins for line width</span>
+    <span class="n">LW_LABELS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>  <span class="c1"># line widths</span>
+
     <span class="c1"># convert percentages to line widths based on bin values</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">LW_BINS</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">LW_LABELS</span><span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;lw&#39;</span><span class="p">])</span>
 
     <span class="c1"># lines for each production with linewidths as determined above</span>
-    <span class="n">lc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">field_lines</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;lw&#39;</span><span class="p">]))</span>
+    <span class="n">lc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">field_lines</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                           <span class="n">linewidths</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;lw&#39;</span><span class="p">]))</span>
 
     <span class="c1"># start and end values for x-axis (negative = BC, positive = AD)</span>
     <span class="n">START</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1600</span>
     <span class="n">END</span> <span class="o">=</span> <span class="mi">2001</span>
-    
+
     <span class="c1"># create thin gray lines that stretch horizontally across the whole plot</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">START</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">END</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_start_pt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_start&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;order_y&#39;</span><span class="p">]))</span>
     <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_end_pt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_end&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;order_y&#39;</span><span class="p">]))</span>
-    <span class="n">gray_lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_start_pt&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_end_pt&#39;</span><span class="p">])]</span>
-    
+    <span class="n">gray_lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_start_pt&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gray_end_pt&#39;</span><span class="p">])]</span>
+
     <span class="c1"># horizontal gray lines</span>
     <span class="n">lc2</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">gray_lines</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    
-    
+
     <span class="c1"># units for plot creation; t=&#39;top&#39;, b=&#39;bottom&#39;</span>
-    <span class="n">HEIGHT_UNIT</span> <span class="o">=</span> <span class="mf">0.25</span>
-    <span class="n">T</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span> <span class="n">B</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1">#inch</span>
+    <span class="n">HEIGHT_UNIT</span> <span class="o">=</span> <span class="mf">0.15</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mf">0.7</span>  <span class="c1"># inch</span>
 
     <span class="c1"># x-ticks</span>
-    <span class="n">INTERVAL</span> <span class="o">=</span> <span class="mi">400</span> <span class="c1"># x-axis tick interval</span>
-    <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">START</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">INTERVAL</span><span class="p">)]</span> <span class="c1"># create ticks</span>
+    <span class="n">INTERVAL</span> <span class="o">=</span> <span class="mi">400</span>  <span class="c1"># x-axis tick interval</span>
+    <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">START</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">INTERVAL</span><span class="p">)]</span>  <span class="c1"># create ticks</span>
 
     <span class="c1"># x-values for vertical lines to be added representing time period boundaries</span>
     <span class="n">VERT_LINES</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">850</span><span class="p">,</span> <span class="o">-</span><span class="mi">550</span><span class="p">,</span> <span class="o">-</span><span class="mi">123</span><span class="p">,</span> <span class="mi">455</span><span class="p">,</span> <span class="mi">533</span><span class="p">,</span> <span class="mi">902</span><span class="p">,</span> <span class="mi">1229</span><span class="p">,</span> <span class="mi">1492</span><span class="p">,</span> <span class="mi">1789</span><span class="p">]</span>
 
     <span class="c1"># time period labels</span>
     <span class="c1"># pos = abs(start-val)/float(abs(end-start))</span>
-    <span class="n">TLABEL_V</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">;</span> <span class="n">TLABEL_ANG</span> <span class="o">=</span> <span class="mi">90</span>
-    <span class="n">PERIOD_LABELS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Navetiforme&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">1225</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Talaiòtic&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">700</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Posttalaiòtic&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">336.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Romana&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">166</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Vàndala&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Bizantina&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">717.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Àndalusina&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1065.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Medieval</span><span class="se">\n</span><span class="s1">Cristiana&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1360.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Moderna&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1640.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
-                    <span class="s1">&#39;Contemporània&#39;</span><span class="p">:[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">2000</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">]}</span>
+    <span class="n">TLABEL_V</span> <span class="o">=</span> <span class="mf">1.01</span>
+    <span class="n">TLABEL_ANG</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">PERIOD_LABELS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Navetiforme&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">1225</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Talaiòtic&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">700</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Posttalaiòtic&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">336.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Romana&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">166</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Vàndala&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Bizantina&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">717.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Àndalusina&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1065.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Medieval</span><span class="se">\n</span><span class="s1">Cristiana&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1360.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Moderna&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mf">1640.5</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">],</span>
+                     <span class="s1">&#39;Contemporània&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">START</span><span class="o">-</span><span class="p">(</span><span class="mi">2000</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">END</span><span class="o">-</span><span class="n">START</span><span class="p">)),</span> <span class="n">TLABEL_V</span><span class="p">,</span> <span class="n">TLABEL_ANG</span><span class="p">]}</span>
 
-    
     <span class="c1"># create plot and set properties</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>
 
     <span class="n">height</span> <span class="o">=</span> <span class="n">HEIGHT_UNIT</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">T</span><span class="o">+</span><span class="n">B</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">B</span><span class="o">/</span><span class="n">height</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">T</span><span class="o">/</span><span class="n">height</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">B</span><span class="o">/</span><span class="n">height</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">T</span><span class="o">/</span><span class="n">height</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">lc2</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">lc</span><span class="p">)</span>
@@ -532,12 +423,13 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">START</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">END</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;order_y&#39;</span><span class="p">])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">yticklabels</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ylabel&#39;</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="c1"># place time period vertical lines from list of x values</span>
     <span class="k">for</span> <span class="n">vline</span> <span class="ow">in</span> <span class="n">VERT_LINES</span><span class="p">:</span>
@@ -545,20 +437,20 @@
 
     <span class="c1"># place time period labels</span>
     <span class="k">for</span> <span class="n">period</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">PERIOD_LABELS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">period</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
-               <span class="n">rotation</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">period</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
 
     <span class="c1"># legend</span>
     <span class="n">proxies</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_proxy</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">lc</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">LW_LABELS</span><span class="p">]</span>
-    <span class="n">leg</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">proxies</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;0-10%&#39;</span><span class="p">,</span> <span class="s1">&#39;10-25%&#39;</span><span class="p">,</span> <span class="s1">&#39;25-50%&#39;</span><span class="p">,</span> <span class="s1">&#39;50-75%&#39;</span><span class="p">,</span> <span class="s1">&#39;75-90%&#39;</span><span class="p">,</span> <span class="s1">&#39;90-100%&#39;</span><span class="p">],</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> 
-                    <span class="n">bbox_transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">labelspacing</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">handlelength</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">markerfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
-                    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">leg</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">proxies</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;0-10%&#39;</span><span class="p">,</span> <span class="s1">&#39;10-25%&#39;</span><span class="p">,</span> <span class="s1">&#39;25-50%&#39;</span><span class="p">,</span> <span class="s1">&#39;50-75%&#39;</span><span class="p">,</span> <span class="s1">&#39;75-90%&#39;</span><span class="p">,</span> <span class="s1">&#39;90-100%&#39;</span><span class="p">],</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                    <span class="n">bbox_transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">labelspacing</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">handlelength</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">markerfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">leg</span><span class="o">.</span><span class="n">get_texts</span><span class="p">():</span>
-        <span class="n">txt</span><span class="o">.</span><span class="n">set_ha</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="c1"># horizontal alignment of text item</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">set_ha</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>  <span class="c1"># horizontal alignment of text item</span>
 <span class="c1">#         txt.set_x(0) # x-position</span>
 <span class="c1">#         txt.set_y() # y-position</span>
-    
+
     <span class="k">return</span> <span class="n">fig</span></div>
 
 
@@ -567,7 +459,7 @@
 
 <div class="viewcode-block" id="write_excel_table"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.write_excel_table">[docs]</a><span class="k">def</span> <span class="nf">write_excel_table</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">writer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format data and add as worksheet to Excel output</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    unit : str</span>
@@ -576,78 +468,107 @@
 <span class="sd">        Data to write to the file</span>
 <span class="sd">    writer : `ExcelWriter`</span>
 <span class="sd">        Excel file</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">table_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Catalan&#39;</span><span class="p">:</span><span class="s1">&#39;Producció&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span><span class="s1">&#39;Núm&#39;</span><span class="p">,</span> <span class="s1">&#39;pct&#39;</span><span class="p">:</span><span class="s1">&#39;%&#39;</span><span class="p">})</span>
+    <span class="n">table_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;pct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Catalan&#39;</span><span class="p">:</span> <span class="s1">&#39;Producció&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="s1">&#39;Núm&#39;</span><span class="p">,</span> <span class="s1">&#39;pct&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span><span class="p">})</span>
     <span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">40</span>
-    <span class="n">table_data</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">startrow</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">table_data</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span>
+        <span class="n">unit</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">startrow</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">workbook</span>  <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">book</span>
+    <span class="n">workbook</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">book</span>
     <span class="n">worksheet</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">sheets</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">unit</span><span class="p">)]</span>
 
-    <span class="c1">#header</span>
-    <span class="n">header_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+    <span class="c1"># header</span>
+    <span class="n">header_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
     <span class="k">for</span> <span class="n">col_num</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table_data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
         <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_num</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
 
-    <span class="n">header_format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+    <span class="n">header_format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
     <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Producció&#39;</span><span class="p">,</span> <span class="n">header_format2</span><span class="p">)</span>
 
-    <span class="n">colA_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+    <span class="n">colA_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
     <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;A:A&#39;</span><span class="p">,</span> <span class="n">MAX_LEN</span><span class="p">,</span> <span class="n">colA_format</span><span class="p">)</span>
 
-    <span class="n">colB_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+    <span class="n">colB_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
     <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;B:B&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">colB_format</span><span class="p">)</span>
 
-    <span class="n">colC_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;align&#39;</span><span class="p">:</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;num_format&#39;</span><span class="p">:</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+    <span class="n">colC_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;num_format&#39;</span><span class="p">:</span> <span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;font_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
     <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;C:C&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">colC_format</span><span class="p">)</span></div>
 
 
 <span class="c1">#######################################################################################################################</span>
 
 
-<div class="viewcode-block" id="make_report_tables"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.make_report_tables">[docs]</a><span class="k">def</span> <span class="nf">make_report_tables</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">group_col</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;field_tables.xlsx&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="make_report_tables"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.make_report_tables">[docs]</a><span class="k">def</span> <span class="nf">make_report_tables</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">group_col</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;field_tables.xlsx&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create and save Excel file with a Sheet for each group in `groups`</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    groups : pandas `GroupBy`</span>
-<span class="sd">        `GroupBy` object like those returned by `group_artifacts()`</span>
+<span class="sd">    artifacts : pandas `DataFrame`</span>
+
 <span class="sd">    group_col : str</span>
 <span class="sd">        Name of column that contains group info</span>
 <span class="sd">    output_folder : str</span>
 <span class="sd">        Folder to save the final Excel</span>
 <span class="sd">    fname : str, optional</span>
 <span class="sd">        Name of the Excel file (the default is &#39;field_tables.xlsx&#39;)</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">get_misc_types</span>
+
+    <span class="c1"># where no Catalan name exists, map the Catalan value from the misc dictionary to the MaterialTypeName</span>
+    <span class="c1"># e.g., &#39;brick&#39; --&gt; &#39;maó&#39;, &#39;tile&#39; --&gt; &#39;teula&#39;</span>
+    <span class="n">misc</span> <span class="o">=</span> <span class="n">get_misc_types</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+                                                      <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;MaterialTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">misc</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+        <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]))</span>
+
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="o">~</span><span class="p">((</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Note&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;signinum&#39;</span><span class="p">))</span> <span class="o">|</span>
+          <span class="p">(</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Note&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Signinum&#39;</span><span class="p">))),</span>
+        <span class="s1">&#39;Opus signinum&#39;</span><span class="p">)</span>
+
+    <span class="n">artifacts_sub</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">group_col</span><span class="p">,</span> <span class="s1">&#39;Catalan&#39;</span><span class="p">]]</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">artifacts_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">group_col</span><span class="p">])</span>
+
     <span class="n">writer</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{output_folder}{fname}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;xlsxwriter&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">unit</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">prep_report_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">group_col</span><span class="p">)</span>
-        <span class="n">write_excel_table</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">writer</span><span class="p">)</span>
-   
+        <span class="n">table_group</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Catalan&#39;</span><span class="p">])[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Catalan&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">})</span>
+        <span class="n">table_group</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">table_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">table_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">table_group</span> <span class="o">=</span> <span class="n">table_group</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">write_excel_table</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">table_group</span><span class="p">,</span> <span class="n">writer</span><span class="p">)</span>
+
     <span class="n">writer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Excel file saved to </span><span class="si">{output_folder}{fname}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 <span class="c1">#######################################################################################################################</span>
 
-
-<div class="viewcode-block" id="make_report_span_charts"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.make_report_span_charts">[docs]</a><span class="k">def</span> <span class="nf">make_report_span_charts</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">group_col</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">file_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="make_report_span_charts"><a class="viewcode-back" href="../../_autosummary/leiap.report.html#leiap.report.make_report_span_charts">[docs]</a><span class="k">def</span> <span class="nf">make_report_span_charts</span><span class="p">(</span><span class="n">artifacts</span><span class="p">,</span> <span class="n">group_col</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">file_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="c1"># def make_report_span_charts(groups, group_col, output_folder, file_prefix=&#39;&#39;):</span>
     <span class="sd">&quot;&quot;&quot;Create and save production span charts</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    groups : pandas `GroupBy`</span>
-<span class="sd">        `GroupBy` object like those returned by `group_artifacts()`</span>
+<span class="sd">    artifacts : pandas `DataFrame`</span>
+
 <span class="sd">    group_col : str</span>
 <span class="sd">        Name of column that contains group info</span>
 <span class="sd">    output_folder : str</span>
@@ -661,12 +582,35 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">get_misc_types</span>
+
+    <span class="c1"># where no Catalan name exists, map the Catalan value from the misc dictionary to the MaterialTypeName</span>
+    <span class="c1"># e.g., &#39;brick&#39; --&gt; &#39;maó&#39;, &#39;tile&#39; --&gt; &#39;teula&#39;</span>
+    <span class="n">misc</span> <span class="o">=</span> <span class="n">get_misc_types</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+                                                      <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;MaterialTypeName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">misc</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span>
+        <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;TileType&#39;</span><span class="p">]))</span>
+
+    <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="o">~</span><span class="p">((</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Note&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;signinum&#39;</span><span class="p">))</span> <span class="o">|</span>
+          <span class="p">(</span><span class="n">artifacts</span><span class="p">[</span><span class="s1">&#39;Note&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Signinum&#39;</span><span class="p">))),</span>
+        <span class="s1">&#39;Opus signinum&#39;</span><span class="p">)</span>
+
+    <span class="n">artifacts_sub</span> <span class="o">=</span> <span class="n">artifacts</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">group_col</span><span class="p">,</span>
+                                      <span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span> <span class="s1">&#39;LateChrono&#39;</span><span class="p">]]</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">artifacts_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">group_col</span><span class="p">])</span>
+
     <span class="k">for</span> <span class="n">unit</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">prep_report_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">group_col</span><span class="p">)</span>
-        <span class="n">time_span_chart</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">span_group</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Catalan&#39;</span><span class="p">,</span> <span class="s1">&#39;EarlyChrono&#39;</span><span class="p">,</span> <span class="s1">&#39;LateChrono&#39;</span><span class="p">])[</span><span class="s1">&#39;Catalan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Catalan&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">})</span>
+        <span class="n">span_group</span><span class="p">[</span><span class="s1">&#39;pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">span_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">/</span>
+                             <span class="n">span_group</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">time_span_chart</span><span class="p">(</span><span class="n">span_group</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{output_folder}{file_prefix}{unit}</span><span class="s1">.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{file_prefix}{unit}</span><span class="s1">.png saved&#39;</span><span class="p">)</span>
-    
+
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{len(groups)} image file(s) saved to </span><span class="si">{output_folder}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 </pre></div>
