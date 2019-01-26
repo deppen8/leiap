@@ -12,8 +12,6 @@ leiap.report
       points_per_group
       artifacts_per_group
       pos_points_per_group
-      group_artifacts
-      prep_report_data
       time_span_chart
       write_excel_table
       make_report_tables
