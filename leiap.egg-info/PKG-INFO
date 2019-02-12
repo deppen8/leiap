@@ -1,13 +1,12 @@
 Metadata-Version: 1.1
 Name: leiap
-Version: 0.1.2
+Version: 0.1.3
 Summary: Tools for the LEIA Project
 Home-page: https://github.com/deppen8/leiap/
 Author: Jacob Deppen and Marcos Llobera
 Author-email: leiap@uw.edu
 License: UNKNOWN
 Project-URL: Bug Reports, https://github.com/deppen8/leiap/
-Project-URL: Source, https://github.com/pypa/sampleproject/
 Project-URL: Research project home, http://leiap.weebly.com/
 Description: UNKNOWN
 Keywords: archaeology sonservera mallorca spain gis

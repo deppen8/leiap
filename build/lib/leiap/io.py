@@ -90,8 +90,8 @@ def db_query(query_text, **kwargs):
 #######################################################################################################################
 
 
-def load_points(years=None, **kwargs):
-    """Get a DataFrame of points
+def get_points(years=None, **kwargs):
+    """Load a DataFrame of points
 
     Parameters
     ----------
@@ -122,8 +122,8 @@ def load_points(years=None, **kwargs):
 #######################################################################################################################
 
 
-def load_points_simple(**kwargs):
-    """Get a DataFrame of points with the most typical query
+def get_points_simple(**kwargs):
+    """Load a DataFrame of points with the most typical query
 
     Parameters
     ----------
@@ -152,8 +152,8 @@ def load_points_simple(**kwargs):
 #######################################################################################################################
 
 
-def load_points_by_year(years, **kwargs):
-    """Get a DataFrame of points with the most typical query for specified year(s)
+def get_points_by_year(years, **kwargs):
+    """Load a DataFrame of points with the most typical query for specified year(s)
 
     Parameters
     ----------
@@ -172,7 +172,7 @@ def load_points_by_year(years, **kwargs):
         """get_points_by_year() is no longer preferred. Use get_points() with appropriate parameters instead.""",
         DeprecationWarning)
 
-    points_df = load_points_simple(**kwargs)
+    points_df = get_points_simple(**kwargs)
     points_df = points_df[points_df.DataDate.dt.year.isin(years)]
     return points_df
 
@@ -180,8 +180,8 @@ def load_points_by_year(years, **kwargs):
 #######################################################################################################################
 
 
-def load_artifacts(sections=['base'], years=None, include_discards=False, **kwargs):
-    """Get a DataFrame of artifacts
+def get_artifacts(sections=['base'], years=None, include_discards=False, **kwargs):
+    """Load a DataFrame of artifacts
 
     Parameters
     ----------
@@ -280,8 +280,8 @@ def load_artifacts(sections=['base'], years=None, include_discards=False, **kwar
 #######################################################################################################################
 
 
-def load_artifacts_simple(include_discards=False, **kwargs):
-    """Get a DataFrame of artifacts with the most typical query
+def get_artifacts_simple(include_discards=False, **kwargs):
+    """Load a DataFrame of artifacts with the most typical query
     
     Parameters
     ----------
@@ -318,8 +318,8 @@ def load_artifacts_simple(include_discards=False, **kwargs):
 #######################################################################################################################
 
 
-def load_artifacts_by_year(years, discards=False, **kwargs):
-    """Get a DataFrame of artifacts with the most typical query for specified year(s)
+def get_artifacts_by_year(years, discards=False, **kwargs):
+    """Load a DataFrame of artifacts with the most typical query for specified year(s)
     
     Parameters
     ----------
@@ -340,7 +340,7 @@ def load_artifacts_by_year(years, discards=False, **kwargs):
     warnings.warn(
         """get_artifacts_by_year() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""",
         DeprecationWarning)
-    artifacts_df = load_artifacts_simple(include_discards=discards, **kwargs)
+    artifacts_df = get_artifacts_simple(include_discards=discards, **kwargs)
     artifacts_df = artifacts_df[artifacts_df.ChangedDate.dt.year.isin(years)]
     return artifacts_df
 
@@ -348,8 +348,8 @@ def load_artifacts_by_year(years, discards=False, **kwargs):
 #######################################################################################################################
 
 
-def load_productions_simple(**kwargs):
-    """Get a DataFrame of productions with the most typical query
+def get_productions_simple(**kwargs):
+    """Load a DataFrame of productions with the most typical query
 
     Parameters
     ----------
@@ -371,8 +371,8 @@ def load_productions_simple(**kwargs):
 #######################################################################################################################
 
 
-def load_production_cts_wts(**kwargs):
-    """Create a DataFrame of all points with columns for counts and weights of all productions
+def get_production_cts_wts(**kwargs):
+    """Load a DataFrame of all points with columns for counts and weights of all productions
 
     Parameters
     ----------
@@ -389,8 +389,8 @@ def load_production_cts_wts(**kwargs):
     Also pulls in some non-vessel artifact types (e.g., tile, brick, other construction material)
     
     """
-    artifacts = load_artifacts(sections=['metrics', 'classify', 'production', 'tile_brick'], **kwargs)
-    points = load_points(**kwargs)
+    artifacts = get_artifacts(sections=['metrics', 'classify', 'production', 'tile_brick'], **kwargs)
+    points = get_points(**kwargs)
     
     # For artifacts without a Production (i.e., tiles, bricks, etc), use their MaterialType as their Production. If
     # MaterialType is Tile, use TileType ('Tegula' or 'Imbrex')
@@ -417,8 +417,8 @@ def load_production_cts_wts(**kwargs):
 #######################################################################################################################
 
 
-def load_points_times(warn='enable', **kwargs):
-    """Get a DataFrame of points with datetimes cleaned and search times calculated
+def get_points_times(warn='enable', **kwargs):
+    """Load a DataFrame of points with datetimes cleaned and search times calculated
     
     Parameters
     ----------
@@ -432,7 +432,7 @@ def load_points_times(warn='enable', **kwargs):
     pts : pandas DataFrame
         DataFrame of all points with adjusted datetimes and search times
     """
-    pts = calc_search_time(clean_datetimes(load_points(**kwargs)), warn=warn)
+    pts = calc_search_time(clean_datetimes(get_points(**kwargs)), warn=warn)
     return pts
 
 
