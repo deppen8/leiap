@@ -13,7 +13,7 @@ import matplotlib.pyplot as _plt
 #######################################################################################################################
 
 
-def field_explorer(artifacts, points, fields_shp_path, html_file_out=''):
+def field_explorer(artifacts, points, fields_shp_path, html_file_out=""):
     """Create bokeh map with summary information about all fields
     
     Parameters
@@ -38,60 +38,94 @@ def field_explorer(artifacts, points, fields_shp_path, html_file_out=''):
     """
     from bokeh.io import show
     from bokeh.plotting import figure, output_file
-    from bokeh.models import (GeoJSONDataSource,
-                              HoverTool, PanTool, WheelZoomTool, BoxZoomTool, ResetTool,
-                              NumeralTickFormatter)
+    from bokeh.models import (
+        GeoJSONDataSource,
+        HoverTool,
+        PanTool,
+        WheelZoomTool,
+        BoxZoomTool,
+        ResetTool,
+        NumeralTickFormatter,
+    )
 
-    geo_artifacts = find_geo_field(artifacts, fields_shp_path)  # find geofield for artifacts
-    geo_points = find_geo_field(points, fields_shp_path)        # find geofield for points
-    
-    fields_sum = fields_summary_table(geo_points, geo_artifacts)  # summarize artifacts by geofield
-    fields_shp = read_fields_shp(fields_shp_path)               # get fields shapefile as geodataframe
-    
+    geo_artifacts = find_geo_field(
+        artifacts, fields_shp_path
+    )  # find geofield for artifacts
+    geo_points = find_geo_field(points, fields_shp_path)  # find geofield for points
+
+    fields_sum = fields_summary_table(
+        geo_points, geo_artifacts
+    )  # summarize artifacts by geofield
+    fields_shp = read_fields_shp(
+        fields_shp_path
+    )  # get fields shapefile as geodataframe
+
     # attach artifact summaries to fields geodataframe
-    fields_merge = fields_shp.merge(fields_sum, how='left', left_on='fid', right_on='Id')
-    fields_merge = fields_merge.rename(columns={        # renaming columns makes them usable
-        'Polígono': 'polygon',                           # as tooltips in the bokeh plot
-        'Parcela': 'parcel',
-        'Subparcela': 'subparcel',
-        'Id': 'id',
-        'Núm. Pts.': 'n_pts',
-        'Núm. Frags.': 'n_frags',
-        'Pos. Pts.': 'pos_pts'
-    })
-    
-    surveyed = fields_merge[~fields_merge['n_pts'].isna()]      # get separate dataframes for
-    unsurveyed = fields_merge[fields_merge['n_pts'].isna()]     # surveyed and unsurveyed fields
-    surveyed_geojson = surveyed.to_json()                   # convert both to geo_json
+    fields_merge = fields_shp.merge(
+        fields_sum, how="left", left_on="fid", right_on="Id"
+    )
+    fields_merge = fields_merge.rename(
+        columns={  # renaming columns makes them usable
+            "Polígono": "polygon",  # as tooltips in the bokeh plot
+            "Parcela": "parcel",
+            "Subparcela": "subparcel",
+            "Id": "id",
+            "Núm. Pts.": "n_pts",
+            "Núm. Frags.": "n_frags",
+            "Pos. Pts.": "pos_pts",
+        }
+    )
+
+    surveyed = fields_merge[
+        ~fields_merge["n_pts"].isna()
+    ]  # get separate dataframes for
+    unsurveyed = fields_merge[
+        fields_merge["n_pts"].isna()
+    ]  # surveyed and unsurveyed fields
+    surveyed_geojson = surveyed.to_json()  # convert both to geo_json
     unsurveyed_geojson = unsurveyed.to_json()
 
-    surveyed_source = GeoJSONDataSource(geojson=surveyed_geojson)       # convert JSON to
-    unsurveyed_source = GeoJSONDataSource(geojson=unsurveyed_geojson)   # bokeh GeoJSONDataSource
-    
+    surveyed_source = GeoJSONDataSource(geojson=surveyed_geojson)  # convert JSON to
+    unsurveyed_source = GeoJSONDataSource(
+        geojson=unsurveyed_geojson
+    )  # bokeh GeoJSONDataSource
+
     output_file(html_file_out)
 
     surveyed_hover = [
-        ('Status', 'surveyed'),
-        ('Campo', '@fid'),
-        ('Núm. Pts.', '@n_pts'),
-        ('Pos. Pts.', '@pos_pts'),
-        ('Núm. Frags.', '@n_frags')    
+        ("Status", "surveyed"),
+        ("Campo", "@fid"),
+        ("Núm. Pts.", "@n_pts"),
+        ("Pos. Pts.", "@pos_pts"),
+        ("Núm. Frags.", "@n_frags"),
     ]
 
-    unsurveyed_hover = [
-        ('Status', 'not surveyed'),
-        ('Campo', '@fid')
-    ]
+    unsurveyed_hover = [("Status", "not surveyed"), ("Campo", "@fid")]
 
-    p = figure(plot_width=600, plot_height=450, 
-               tools=[PanTool(), WheelZoomTool(), BoxZoomTool(), ResetTool()])
+    p = figure(
+        plot_width=600,
+        plot_height=450,
+        tools=[PanTool(), WheelZoomTool(), BoxZoomTool(), ResetTool()],
+    )
     p.xaxis[0].formatter = NumeralTickFormatter(format="0")
     p.yaxis[0].formatter = NumeralTickFormatter(format="0")
 
-    s = p.patches(xs='xs', ys='ys', source=surveyed_source, line_color='gray', fill_color='lightgreen')
+    s = p.patches(
+        xs="xs",
+        ys="ys",
+        source=surveyed_source,
+        line_color="gray",
+        fill_color="lightgreen",
+    )
     p.add_tools(HoverTool(renderers=[s], tooltips=surveyed_hover))
 
-    u = p.patches(xs='xs', ys='ys', source=unsurveyed_source, line_color='gray', fill_color='seashell')
+    u = p.patches(
+        xs="xs",
+        ys="ys",
+        source=unsurveyed_source,
+        line_color="gray",
+        fill_color="seashell",
+    )
     p.add_tools(HoverTool(renderers=[u], tooltips=unsurveyed_hover))
 
     show(p)
@@ -120,13 +154,22 @@ def single_field_map(field, fields_gdf, axis_len=500, save_path=None):
         Styled map of desired field
 
     """
-    selected = fields_gdf[fields_gdf['fid'] == field]  # isolate desired field as a gdf
-    unselected = fields_gdf[fields_gdf['fid'] != field]  # get all other fields as a gdf
+    selected = fields_gdf[fields_gdf["fid"] == field]  # isolate desired field as a gdf
+    unselected = fields_gdf[fields_gdf["fid"] != field]  # get all other fields as a gdf
 
-    bounds = selected.bounds  # find bounding box of selected field and extract mins and maxs
-    minx, maxx, miny, maxy = bounds.minx.iloc[0], bounds.maxx.iloc[0], bounds.miny.iloc[0], bounds.maxy.iloc[0]
+    bounds = (
+        selected.bounds
+    )  # find bounding box of selected field and extract mins and maxs
+    minx, maxx, miny, maxy = (
+        bounds.minx.iloc[0],
+        bounds.maxx.iloc[0],
+        bounds.miny.iloc[0],
+        bounds.maxy.iloc[0],
+    )
 
-    h_mid = minx + ((maxx - minx) / 2)  # find horizontal midpoint of selected field's bounding box
+    h_mid = minx + (
+        (maxx - minx) / 2
+    )  # find horizontal midpoint of selected field's bounding box
     v_mid = miny + ((maxy - miny) / 2)  # find vertical midpoint
 
     xax_min = h_mid - axis_len / 2  # find min/max dimensions from midpoints
@@ -134,12 +177,14 @@ def single_field_map(field, fields_gdf, axis_len=500, save_path=None):
     yax_min = v_mid - axis_len / 2
     yax_max = v_mid + axis_len / 2
 
-    field_map = draw_single_field_map(selected, unselected, xlim=(xax_min, xax_max), ylim=(yax_min, yax_max))
+    field_map = draw_single_field_map(
+        selected, unselected, xlim=(xax_min, xax_max), ylim=(yax_min, yax_max)
+    )
 
     if save_path:  # save, if desired
         field_map.savefig(save_path)
 
-    _plt.close('all')
+    _plt.close("all")
 
     return field_map
 

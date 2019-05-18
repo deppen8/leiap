@@ -9,7 +9,7 @@ from leiap.time import *
 #######################################################################################################################
 
 
-def get_credentials(credentials_path='credentials.json'):
+def get_credentials(credentials_path="credentials.json"):
     """Access database credentials from JSON file
 
     Parameters
@@ -23,7 +23,8 @@ def get_credentials(credentials_path='credentials.json'):
         Dictionary containing the database connection details
     """
     import json
-    with open(credentials_path, 'r') as f:
+
+    with open(credentials_path, "r") as f:
         credentials = json.load(f)
 
     return credentials
@@ -32,7 +33,7 @@ def get_credentials(credentials_path='credentials.json'):
 #######################################################################################################################
 
 
-def connect2db(driver='{ODBC Driver 17 for SQL Server}', **kwargs):
+def connect2db(driver="{ODBC Driver 17 for SQL Server}", **kwargs):
     """Open a connection to the database
     
     Parameters
@@ -50,15 +51,24 @@ def connect2db(driver='{ODBC Driver 17 for SQL Server}', **kwargs):
     from sys import platform
 
     if platform == "darwin" or platform == "linux" or platform == "linux2":
-        driver = "libmsodbcsql.17.dylib"  # may not be necessary for all macOS/Linux users
+        driver = (
+            "libmsodbcsql.17.dylib"
+        )  # may not be necessary for all macOS/Linux users
 
     credentials = get_credentials(**kwargs)
 
-    connection = pyodbc.connect('DRIVER=' + driver +
-                                ';SERVER=' + credentials['database']['server_name'] +
-                                ';DATABASE=' + credentials['database']['db_name'] +
-                                ';UID=' + credentials['database']['user'] +
-                                ';PWD=' + credentials['database']['password'])
+    connection = pyodbc.connect(
+        "DRIVER="
+        + driver
+        + ";SERVER="
+        + credentials["database"]["server_name"]
+        + ";DATABASE="
+        + credentials["database"]["db_name"]
+        + ";UID="
+        + credentials["database"]["user"]
+        + ";PWD="
+        + credentials["database"]["password"]
+    )
 
     return connection
 
@@ -111,7 +121,7 @@ def get_points(years=None, **kwargs):
                LEFT JOIN Surveyor ON SurveyPoint.SurveyorId=Surveyor.SurveyorId
                """
     points_df = db_query(query, **kwargs)
-    points_df = points_df.drop(columns=['SherdCount', 'tempFixIDs'])
+    points_df = points_df.drop(columns=["SherdCount", "tempFixIDs"])
 
     if years:
         points_df = points_df[points_df.DataDate.dt.year.isin(years)]
@@ -136,9 +146,11 @@ def get_points_simple(**kwargs):
         DataFrame of all points
     """
     import warnings
+
     warnings.warn(
         """get_points_simple() is no longer preferred. Use get_points() with appropriate parameters instead.""",
-        DeprecationWarning)
+        DeprecationWarning,
+    )
 
     query = """SELECT SurveyPoint.*, Field.FieldNumber, Surveyor.SurveyorName 
                FROM SurveyPoint 
@@ -168,9 +180,11 @@ def get_points_by_year(years, **kwargs):
         DataFrame of all points for specified year(s)
     """
     import warnings
+
     warnings.warn(
         """get_points_by_year() is no longer preferred. Use get_points() with appropriate parameters instead.""",
-        DeprecationWarning)
+        DeprecationWarning,
+    )
 
     points_df = get_points_simple(**kwargs)
     points_df = points_df[points_df.DataDate.dt.year.isin(years)]
@@ -180,7 +194,7 @@ def get_points_by_year(years, **kwargs):
 #######################################################################################################################
 
 
-def get_artifacts(sections=['base'], years=None, include_discards=False, **kwargs):
+def get_artifacts(sections=["base"], years=None, include_discards=False, **kwargs):
     """Load a DataFrame of artifacts
 
     Parameters
@@ -201,27 +215,81 @@ def get_artifacts(sections=['base'], years=None, include_discards=False, **kwarg
         DataFrame of all artifacts
 
     """
-    if 'base' in sections:
-        sections.remove('base')
-    if 'all' in sections:
-        sections = ['metrics', 'classify', 'production', 'tile_brick', 'waretypes', 'vesselparts', 'macro_fabric']
+    if "base" in sections:
+        sections.remove("base")
+    if "all" in sections:
+        sections = [
+            "metrics",
+            "classify",
+            "production",
+            "tile_brick",
+            "waretypes",
+            "vesselparts",
+            "macro_fabric",
+        ]
 
-    base = ['SherdId', 'FieldId', 'SurveyorId', 'PointId', 'SherdNum', 'SurveyPointId',
-            'ChangedDate', 'FieldNumber', 'Northing', 'Easting', 'SurveyorName']
+    base = [
+        "SherdId",
+        "FieldId",
+        "SurveyorId",
+        "PointId",
+        "SherdNum",
+        "SurveyPointId",
+        "ChangedDate",
+        "FieldNumber",
+        "Northing",
+        "Easting",
+        "SurveyorName",
+    ]
 
-    col_grps = {'metrics': ['Length', 'Width', 'Thickness', 'Weight'],
-                'classify': ['MaterialTypeName', 'ManufactureName', 'FabricTypeName', 'Form', 'Note',
-                             'VesselPartOther', 'WareTypeOther'],
-                'production': ['Chronology', 'CultureOther', 'RegionOther', 'EnteredDate', 'EarlyChrono',
-                               'LateChrono', 'Catalan'],
-                'tile_brick': ['TileType', 'TileIsStamped', 'TileIsCurved', 'BrickIsStamped'],
-                'macro_fabric': ['SherdCondition', 'SurfaceTexture', 'SurfTextureOther', 'SurfaceCondition',
-                                 'SurvCondOther', 'SurfaceTreatExt', 'STEOther', 'SurfaceTreatInt', 'STIOther',
-                                 'HardnessSurface', 'HardnessCore', 'FiringCore', 'ColorExt', 'ColorInt',
-                                 'ColorCore', 'InclusionOther', 'DomInclusion', 'DomInclusionOther',
-                                 'InclusionSorting', 'InclusionShape', 'InclusionDensity', 'InclusionSize',
-                                 'InclusionLargestSize', 'InclusionTexture']
-            }
+    col_grps = {
+        "metrics": ["Length", "Width", "Thickness", "Weight"],
+        "classify": [
+            "MaterialTypeName",
+            "ManufactureName",
+            "FabricTypeName",
+            "Form",
+            "Note",
+            "VesselPartOther",
+            "WareTypeOther",
+        ],
+        "production": [
+            "Chronology",
+            "CultureOther",
+            "RegionOther",
+            "EnteredDate",
+            "EarlyChrono",
+            "LateChrono",
+            "Catalan",
+        ],
+        "tile_brick": ["TileType", "TileIsStamped", "TileIsCurved", "BrickIsStamped"],
+        "macro_fabric": [
+            "SherdCondition",
+            "SurfaceTexture",
+            "SurfTextureOther",
+            "SurfaceCondition",
+            "SurvCondOther",
+            "SurfaceTreatExt",
+            "STEOther",
+            "SurfaceTreatInt",
+            "STIOther",
+            "HardnessSurface",
+            "HardnessCore",
+            "FiringCore",
+            "ColorExt",
+            "ColorInt",
+            "ColorCore",
+            "InclusionOther",
+            "DomInclusion",
+            "DomInclusionOther",
+            "InclusionSorting",
+            "InclusionShape",
+            "InclusionDensity",
+            "InclusionSize",
+            "InclusionLargestSize",
+            "InclusionTexture",
+        ],
+    }
 
     query = """SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, 
                       Surveyor.SurveyorName, ManufactureMethod.ManufactureName
@@ -235,7 +303,7 @@ def get_artifacts(sections=['base'], years=None, include_discards=False, **kwarg
     artifacts_df = db_query(query, **kwargs)
 
     if include_discards is False:
-        artifacts_df = artifacts_df[artifacts_df['FabricTypeName'] != 'Discarded']
+        artifacts_df = artifacts_df[artifacts_df["FabricTypeName"] != "Discarded"]
 
     cols = base
     for s in sections:
@@ -244,32 +312,49 @@ def get_artifacts(sections=['base'], years=None, include_discards=False, **kwarg
 
     artifacts_df = artifacts_df[cols]
 
-    if 'waretypes' in sections:
-        waretypes = db_query("""SELECT swt.SherdId, wt.WareTypeName
+    if "waretypes" in sections:
+        waretypes = db_query(
+            """SELECT swt.SherdId, wt.WareTypeName
                                      FROM SherdWareType AS swt
                                      LEFT JOIN WareType AS wt ON swt.WareTypeId=wt.WareTypeId
                                      LEFT JOIN Sherd ON Sherd.SherdId=swt.SherdId
-                                     """)
+                                     """
+        )
 
-        dummies = _pd.get_dummies(waretypes['WareTypeName']).rename(  # one hot encoding
-            columns={'other': 'other_waretype', 'unknown': 'unknown_waretype'})
-        waretypes = waretypes.merge(dummies, how='left', left_index=True, right_index=True)  # attach to original
-        waretypes = waretypes.groupby('SherdId').sum()  # groupby to collapse duplicate SherdIds
-        artifacts_df = artifacts_df.merge(waretypes, how='left', left_on='SherdId', right_index=True)  # merge with df
+        dummies = _pd.get_dummies(waretypes["WareTypeName"]).rename(  # one hot encoding
+            columns={"other": "other_waretype", "unknown": "unknown_waretype"}
+        )
+        waretypes = waretypes.merge(
+            dummies, how="left", left_index=True, right_index=True
+        )  # attach to original
+        waretypes = waretypes.groupby(
+            "SherdId"
+        ).sum()  # groupby to collapse duplicate SherdIds
+        artifacts_df = artifacts_df.merge(
+            waretypes, how="left", left_on="SherdId", right_index=True
+        )  # merge with df
 
-    if 'vesselparts' in sections:
-        vessel_parts = db_query("""SELECT svp.SherdId, vp.VesselPartName
+    if "vesselparts" in sections:
+        vessel_parts = db_query(
+            """SELECT svp.SherdId, vp.VesselPartName
                                      FROM SherdVesselPart AS svp
                                      LEFT JOIN VesselPart AS vp ON svp.VesselPartId=vp.VesselPartId
                                      LEFT JOIN Sherd ON Sherd.SherdId=svp.SherdId
-                                     """)
+                                     """
+        )
 
-        dummies = _pd.get_dummies(vessel_parts['VesselPartName']).rename(
-            columns={'other': 'other_vesselpart', 'unknown': 'unknown_vesselpart'})  # one hot encoding
-        vessel_parts = vessel_parts.merge(dummies, how='left', left_index=True, right_index=True)  # attach to original
-        vessel_parts = vessel_parts.groupby('SherdId').sum()  # groupby to collapse duplicate SherdIds
-        artifacts_df = artifacts_df.merge(vessel_parts, how='left', left_on='SherdId',
-                                          right_index=True)  # merge with df
+        dummies = _pd.get_dummies(vessel_parts["VesselPartName"]).rename(
+            columns={"other": "other_vesselpart", "unknown": "unknown_vesselpart"}
+        )  # one hot encoding
+        vessel_parts = vessel_parts.merge(
+            dummies, how="left", left_index=True, right_index=True
+        )  # attach to original
+        vessel_parts = vessel_parts.groupby(
+            "SherdId"
+        ).sum()  # groupby to collapse duplicate SherdIds
+        artifacts_df = artifacts_df.merge(
+            vessel_parts, how="left", left_on="SherdId", right_index=True
+        )  # merge with df
 
     if years:
         artifacts_df = artifacts_df[artifacts_df.ChangedDate.dt.year.isin(years)]
@@ -297,8 +382,11 @@ def get_artifacts_simple(include_discards=False, **kwargs):
 
     """
     import warnings
+
     warnings.warn(
-        """get_artifacts_simple() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""", DeprecationWarning)
+        """get_artifacts_simple() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""",
+        DeprecationWarning,
+    )
     query = """SELECT Sherd.*, FabricType.*, Field.FieldNumber, SurveyPoint.Northing, SurveyPoint.Easting, 
                       Surveyor.SurveyorName 
                FROM Sherd
@@ -310,7 +398,7 @@ def get_artifacts_simple(include_discards=False, **kwargs):
                """
     artifacts_df = db_query(query, **kwargs)
     if include_discards is False:
-        artifacts_df = artifacts_df[artifacts_df['FabricTypeName'] != 'Discarded']
+        artifacts_df = artifacts_df[artifacts_df["FabricTypeName"] != "Discarded"]
 
     return artifacts_df
 
@@ -337,9 +425,11 @@ def get_artifacts_by_year(years, discards=False, **kwargs):
         
     """
     import warnings
+
     warnings.warn(
         """get_artifacts_by_year() is no longer preferred. Use get_artifacts() with appropriate parameters instead.""",
-        DeprecationWarning)
+        DeprecationWarning,
+    )
     artifacts_df = get_artifacts_simple(include_discards=discards, **kwargs)
     artifacts_df = artifacts_df[artifacts_df.ChangedDate.dt.year.isin(years)]
     return artifacts_df
@@ -389,35 +479,59 @@ def get_production_cts_wts(**kwargs):
     Also pulls in some non-vessel artifact types (e.g., tile, brick, other construction material)
     
     """
-    artifacts = get_artifacts(sections=['metrics', 'classify', 'production', 'tile_brick'], **kwargs)
+    artifacts = get_artifacts(
+        sections=["metrics", "classify", "production", "tile_brick"], **kwargs
+    )
     points = get_points(**kwargs)
-    
+
     # For artifacts without a Production (i.e., tiles, bricks, etc), use their MaterialType as their Production. If
     # MaterialType is Tile, use TileType ('Tegula' or 'Imbrex')
-    artifacts['Production'] = artifacts['FabricTypeName'].where(~artifacts['FabricTypeName'].isnull(),
-                                                                artifacts['MaterialTypeName'].where(
-                                                                    artifacts['TileType'].isnull(),
-                                                                    artifacts['TileType']))
+    artifacts["Production"] = artifacts["FabricTypeName"].where(
+        ~artifacts["FabricTypeName"].isnull(),
+        artifacts["MaterialTypeName"].where(
+            artifacts["TileType"].isnull(), artifacts["TileType"]
+        ),
+    )
 
-    artifacts['Production'] = artifacts['Production'].where(
-        ~((artifacts.Note.str.contains('signinum')) | (artifacts.Note.str.contains('Signinum'))),
-        'Opus signinum')
+    artifacts["Production"] = artifacts["Production"].where(
+        ~(
+            (artifacts.Note.str.contains("signinum"))
+            | (artifacts.Note.str.contains("Signinum"))
+        ),
+        "Opus signinum",
+    )
 
     # summarize artifacts by point
-    art_cts = artifacts.groupby(['SurveyPointId', 'Production']).agg({'Production': 'size', 'Weight': 'sum'}).unstack()
-    
+    art_cts = (
+        artifacts.groupby(["SurveyPointId", "Production"])
+        .agg({"Production": "size", "Weight": "sum"})
+        .unstack()
+    )
+
     # merge Production (counts) and Weight (weights) with the points df
     # do this in two steps so that we can append the _ct and _wt suffixes to columns
-    cts = _pd.merge(points, art_cts['Production'], how='left', left_on='SurveyPointId', right_index=True)
-    cts_wts = _pd.merge(cts, art_cts['Weight'], how='left', left_on='SurveyPointId', right_index=True,
-                        suffixes=('_ct', '_wt'))
+    cts = _pd.merge(
+        points,
+        art_cts["Production"],
+        how="left",
+        left_on="SurveyPointId",
+        right_index=True,
+    )
+    cts_wts = _pd.merge(
+        cts,
+        art_cts["Weight"],
+        how="left",
+        left_on="SurveyPointId",
+        right_index=True,
+        suffixes=("_ct", "_wt"),
+    )
     return cts_wts
 
 
 #######################################################################################################################
 
 
-def get_points_times(warn='enable', **kwargs):
+def get_points_times(warn="enable", **kwargs):
     """Load a DataFrame of points with datetimes cleaned and search times calculated
     
     Parameters

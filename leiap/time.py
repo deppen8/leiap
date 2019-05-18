@@ -9,7 +9,7 @@ import pandas as _pd
 #######################################################################################################################
 
 
-def clean_datetimes(df, dt_col='DataDate'):
+def clean_datetimes(df, dt_col="DataDate"):
     """Filter datetimes and correct for timezone issues
     
     Parameters
@@ -34,14 +34,15 @@ def clean_datetimes(df, dt_col='DataDate'):
     which they are downloaded. Before we realized this, a lot of points were uploaded on machines set to U.S. Pacific
     Time. As a result, some times need to be adjusted by 9 hours.
     """
-    df['dt_adj'] = df[dt_col].where(df[dt_col].dt.year > 2014)
+    df["dt_adj"] = df[dt_col].where(df[dt_col].dt.year > 2014)
     df = correct_timezone(df, dt_col)
     return df
+
 
 #######################################################################################################################
 
 
-def correct_timezone(df, dt_col='DataDate'):
+def correct_timezone(df, dt_col="DataDate"):
     """Account for some timezone issues
     
     Parameters
@@ -57,15 +58,18 @@ def correct_timezone(df, dt_col='DataDate'):
         Identical to input DataFrame with datetimes fixed so that they all range from 06:30:00-21:30:00. In reality,
         the latest times are approx 15:00:00
     """
-    df[dt_col] = df[dt_col].where((df[dt_col].dt.time > _pd.Timestamp('06:30:00').time()) &
-                                  (df[dt_col].dt.time < _pd.Timestamp('21:30:00').time()),
-                                  df[dt_col]+_pd.DateOffset(hours=9))
+    df[dt_col] = df[dt_col].where(
+        (df[dt_col].dt.time > _pd.Timestamp("06:30:00").time())
+        & (df[dt_col].dt.time < _pd.Timestamp("21:30:00").time()),
+        df[dt_col] + _pd.DateOffset(hours=9),
+    )
     return df
+
 
 #######################################################################################################################
 
 
-def calc_search_time(df, dt_col='dt_adj', warn='enable'):
+def calc_search_time(df, dt_col="dt_adj", warn="enable"):
     """Calculate search times in seconds
     
     Parameters
@@ -89,34 +93,54 @@ def calc_search_time(df, dt_col='dt_adj', warn='enable'):
     any interpretively meaningful way.
     """
     import math
-    if warn == 'enable':
+
+    if warn == "enable":
         import warnings
-        warnings.warn('FYI: Search times calculated in a naive way (e.g., including unrealistic values and NaN values).'
-                      'Consider further filtering before using `search_time` in calculations.')
-    
-    pts_ix = df.set_index(['FieldNumber', 'SurveyorName', 'SurveyPointId']).sort_index()  # create multi-index df
-    combos = list(set(zip(df['FieldNumber'], df['SurveyorName'])))  # find all unique combos of field and surveyor
+
+        warnings.warn(
+            "FYI: Search times calculated in a naive way (e.g., including unrealistic values and NaN values)."
+            "Consider further filtering before using `search_time` in calculations."
+        )
+
+    pts_ix = df.set_index(
+        ["FieldNumber", "SurveyorName", "SurveyPointId"]
+    ).sort_index()  # create multi-index df
+    combos = list(
+        set(zip(df["FieldNumber"], df["SurveyorName"]))
+    )  # find all unique combos of field and surveyor
 
     s = []  # list to store series for each surveyor within each field
     for i in range(len(combos)):  # loop through field/surveyor pairs
         field, surveyor = combos[i][0], combos[i][1]
         # create new df subset for that field and surveyor and sort by datetime
         df_fs = pts_ix.loc[field, surveyor].sort_values(dt_col)
-        
-        df_fs['dist'] = df_fs['dist'] = ((df_fs['Easting']-df_fs['Easting'].shift(1))**2 +
-                                         (df_fs['Northing']-df_fs['Northing'].shift(1))**2
-                                         ).apply(lambda x: math.sqrt(x))  # calculate distance between consecutive pts
-        
-        df_fs['search_time'] = df_fs[dt_col].diff().dt.total_seconds()  # calculate differences between consecutive dts
-        s.append(df_fs[['search_time', 'dist']])  # append the small series to the list of series
 
-    t = _pd.concat(s)  # concatenate all of the series into one long one (should be of length == n points)
-    return df.join(t, on='SurveyPointId')  # join the series to the original points df
+        df_fs["dist"] = df_fs["dist"] = (
+            (df_fs["Easting"] - df_fs["Easting"].shift(1)) ** 2
+            + (df_fs["Northing"] - df_fs["Northing"].shift(1)) ** 2
+        ).apply(
+            lambda x: math.sqrt(x)
+        )  # calculate distance between consecutive pts
+
+        df_fs["search_time"] = (
+            df_fs[dt_col].diff().dt.total_seconds()
+        )  # calculate differences between consecutive dts
+        s.append(
+            df_fs[["search_time", "dist"]]
+        )  # append the small series to the list of series
+
+    t = _pd.concat(
+        s
+    )  # concatenate all of the series into one long one (should be of length == n points)
+    return df.join(t, on="SurveyPointId")  # join the series to the original points df
+
 
 #######################################################################################################################
 
 
-def filter_times(df, t_col='search_time', t_lim=(1, 900), dist_col='dist', dist_lim=(1, 20)):
+def filter_times(
+    df, t_col="search_time", t_lim=(1, 900), dist_col="dist", dist_lim=(1, 20)
+):
     """Put time and distance restrictions on the time data.
     
     Parameters
@@ -137,10 +161,16 @@ def filter_times(df, t_col='search_time', t_lim=(1, 900), dist_col='dist', dist_
     filtered : pandas DataFrame
         A subset of the original DataFrame filtered according to the input parameters
     """
-    filtered = df[~(df[t_col].isna()) &                             # times not N/A
-                  (df[t_col].between(t_lim[0], t_lim[1])) &         # time limits
-                  (df[dist_col].between(dist_lim[0], dist_lim[1]))  # distance limits
-                  ].sort_values(t_col, ascending=False)             # sort by time
+    filtered = df[
+        ~(df[t_col].isna())
+        & (df[t_col].between(t_lim[0], t_lim[1]))  # times not N/A
+        & (  # time limits
+            df[dist_col].between(dist_lim[0], dist_lim[1])
+        )  # distance limits
+    ].sort_values(
+        t_col, ascending=False
+    )  # sort by time
     return filtered
+
 
 #######################################################################################################################
