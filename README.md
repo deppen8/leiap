@@ -27,7 +27,7 @@ $ cd /MyFiles/Downloads/
     for more info)
 
 ```bash
-$ pip install ./dist/leiap-0.1.1.tar.gz
+$ pip install ./dist/leiap-0.1.3.tar.gz
 ```
 
 ### Querying the database
